@@ -1,0 +1,30 @@
+# Web Framework
+Flask==3.1.0
+Werkzeug==3.1.3
+
+# Database
+pymongo==4.13.0
+
+# Machine Learning
+scikit-learn==1.7.1
+numpy==1.26.4
+joblib==1.5.1
+
+# Web Scraping & Browser Automation
+requests==2.32.4
+beautifulsoup4==4.13.4
+playwright==1.54.0
+
+# Google APIs
+google-api-python-client==2.178.0
+google-auth==2.40.3
+google-auth-oauthlib==1.2.2
+google-auth-httplib2==0.2.0
+
+# OAuth
+oauthlib==3.3.1
+requests-oauthlib==2.0.0
+
+# Browser Automation Support
+pyee==13.0.0
+greenlet==3.2.3

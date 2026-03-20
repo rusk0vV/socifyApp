@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twitter User Stats - Socify</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        body { background: linear-gradient(135deg, #1da1f2, #0f2027); color: #fff; }
+        .glass-card { background: rgba(255,255,255,0.07); border-radius: 16px; padding: 30px; box-shadow: 0 8px 32px rgba(31,38,135,0.25); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.18); }
+        .stat-label { color: #1da1f2; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-5" style="background: rgba(20,20,30,0.95); box-shadow: 0 2px 16px #00000040; border-bottom: 1.5px solid #fff70040;">
+      <div class="container">
+        <a class="navbar-brand neon-yellow" href="/">Socify</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          </ul>
+          <a href="{{ url_for('logout') }}" class="btn btn-info ms-3">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container py-5">
+        <div class="glass-card mx-auto" style="max-width: 500px;">
+            <h2 class="mb-4"><i class="fab fa-twitter"></i> Twitter Stats for <span class="stat-label">@{{ username }}</span></h2>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item bg-transparent text-white"><strong>Followers:</strong> {{ info['followers'] }}</li>
+                <li class="list-group-item bg-transparent text-white"><strong>Following:</strong> {{ info['following'] }}</li>
+                <li class="list-group-item bg-transparent text-white"><strong>Tweets:</strong> {{ info['tweet_count'] }}</li>
+                <li class="list-group-item bg-transparent text-white"><strong>Description:</strong> {{ info['description'] }}</li>
+            </ul>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-info">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Twitter Stats</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1DA1F2, #14171A);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(31,38,135,0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.18);
+      margin-top: 60px;
+    }
+    .back-btn {
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      float: right;
+      margin-top: 10px;
+    }
+    .back-btn:hover {
+      background: #e63e4d;
+    }
+    .neon-blue {
+      color: #1DA1F2;
+      text-shadow: 0 0 5px #1DA1F2, 0 0 10px #1DA1F2, 0 0 20px #1DA1F2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <a href="{{ url_for('dashboard') }}" class="btn back-btn">Back</a>
+    <h2 class="neon-blue fw-bold mb-4">🐦 Twitter Stats for: @{{ username }}</h2>
+    <div class="glass-card">
+      <p><strong>Followers:</strong> {{ info.followers }}</p>
+      <p><strong>Following:</strong> {{ info.following }}</p>
+      <p><strong>Tweets:</strong> {{ info.posts }}</p>
+      <p><strong>Likes:</strong> {{ info.likes }}</p>
+      <p><strong>Replies:</strong> {{ info.replies }}</p>
+      <p><strong>Bio:</strong> {{ info.bio }}</p>
+    </div>
+  </div>
+</body>
+</html>

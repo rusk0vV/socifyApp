@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Run Flask app",
+			"command": "python app.py",
+			"group": "build",
+			"problemMatcher": [
+				"$python"
+			]
+		}
+	]
+}

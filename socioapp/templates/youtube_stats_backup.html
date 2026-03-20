@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Analytics - Socify</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Modern Professional Design System */
+    :root {
+      --primary-red: #ff0000;
+      --primary-gradient: linear-gradient(135deg, #ff0000 0%, #ff4444 50%, #ff6666 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-blue: #6a7cff;
+      --dark-bg: #0a0e1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-light: #ffffff;
+      --shadow-primary: 0 20px 60px rgba(255, 0, 0, 0.15);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --border-radius: 24px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 25%, #2d1b4e 50%, #1a1f3a 75%, #0a0e1a 100%);
+      background-size: 400% 400%;
+      animation: gradientFlow 20s ease infinite;
+      min-height: 100vh;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #ffffff;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    @keyframes gradientFlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Enhanced Floating Background Elements */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -300px;
+      left: -300px;
+      width: 1200px;
+      height: 1200px;
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, rgba(102, 126, 234, 0.05) 40%, transparent 70%);
+      opacity: 0.6;
+      z-index: 0;
+      animation: floatGlow 25s infinite alternate;
+      filter: blur(3px);
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -200px;
+      right: -200px;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, rgba(255, 0, 0, 0.05) 40%, transparent 70%);
+      opacity: 0.4;
+      z-index: 0;
+      animation: floatGlow 30s infinite alternate-reverse;
+      filter: blur(2px);
+    }
+
+    @keyframes floatGlow {
+      0% { 
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% { 
+        transform: translate(100px, 50px) rotate(5deg) scale(1.1);
+        opacity: 0.3;
+      }
+    }
+    /* Modern Professional Navbar */
+    .navbar {
+      background: rgba(10, 14, 26, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, rgba(255, 0, 0, 0.1) 0%, transparent 50%, rgba(102, 126, 234, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .navbar:hover::before {
+      opacity: 1;
+    }
+
+    .navbar-brand {
+      color: var(--primary-red) !important;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+      transition: var(--transition);
+    }
+
+    .navbar-brand:hover {
+      transform: scale(1.05);
+      text-shadow: 0 4px 16px rgba(255, 0, 0, 0.5);
+    }
+
+    .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem !important;
+      border-radius: 12px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+      color: var(--primary-red) !important;
+      box-shadow: 0 4px 16px rgba(255, 0, 0, 0.2);
+    }
+
+    /* Enhanced Glass Card System */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: var(--border-radius);
+      padding: 2.5rem;
+      box-shadow: 
+        var(--shadow-card),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.25),
+        0 12px 40px rgba(255, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Modern Card Variants */
+    .big-glass-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 248, 250, 0.98) 100%);
+      border-radius: 32px;
+      box-shadow: 
+        0 25px 100px rgba(0, 0, 0, 0.15),
+        0 8px 32px rgba(102, 126, 234, 0.1);
+      padding: 3rem 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .big-glass-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, rgba(255, 0, 0, 0.1), rgba(102, 126, 234, 0.1), rgba(255, 0, 0, 0.1));
+      animation: rotate 20s linear infinite;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    .inner-glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .inner-glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        0 16px 48px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    /* Modern Typography System */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 80px;
+      height: 2px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    /* Enhanced Statistics Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--primary-red);
+      display: block;
+      margin-bottom: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+      text-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+    }
+
+    .stat-label {
+      color: var(--accent-blue);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 0.75rem;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    /* Modern Info Rows */
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: var(--transition);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-row:hover {
+      background: rgba(255, 255, 255, 0.05);
+      margin: 0 -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-radius: 12px;
+    }
+
+    .info-label {
+      color: var(--accent-blue);
+      font-weight: 700;
+      min-width: 150px;
+      font-size: 0.95rem;
+    }
+
+    .info-value {
+      color: var(--text-light);
+      text-align: right;
+      flex: 1;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    /* Modern Video Cards */
+    .video-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      transition: var(--transition);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.8s ease;
+    }
+
+    .video-card:hover::before {
+      left: 100%;
+    }
+
+    .video-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .video-thumbnail {
+      width: 140px;
+      height: 78px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+    }
+
+    .video-card:hover .video-thumbnail {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .video-info {
+      flex: 1;
+    }
+
+    .video-title {
+      color: var(--text-light);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .video-stats {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .video-stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Enhanced Tags and Badges */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      background: rgba(102, 126, 234, 0.2);
+      color: var(--accent-blue);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      font-weight: 600;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    .tag:hover {
+      background: rgba(102, 126, 234, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-public {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+      border: 1px solid rgba(76, 175, 80, 0.4);
+    }
+
+    .status-private {
+      background: rgba(255, 152, 0, 0.2);
+      color: #ff9800;
+      border: 1px solid rgba(255, 152, 0, 0.4);
+    }
+
+    /* Enhanced Channel Avatar */
+    .channel-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid var(--primary-red);
+      box-shadow: 
+        0 0 40px rgba(255, 0, 0, 0.5),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .channel-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 60px rgba(255, 0, 0, 0.7),
+        0 12px 48px rgba(0, 0, 0, 0.4);
+    }
+    /* Modern Responsive Design */
+    @media (max-width: 1200px) {
+      .big-glass-card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .stat-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 0;
+      }
+
+      .glass-card { 
+        padding: 1.5rem; 
+        margin-bottom: 1.5rem;
+        border-radius: 16px;
+      }
+      
+      .big-glass-card {
+        padding: 1.5rem 1rem;
+        border-radius: 24px;
+      }
+      
+      .section-title { 
+        font-size: 1.8rem; 
+      }
+      
+      .stat-grid { 
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .video-card { 
+        flex-direction: column; 
+        text-align: center;
+        padding: 1rem;
+      }
+      
+      .video-thumbnail { 
+        width: 100%; 
+        height: 180px;
+        margin-bottom: 1rem;
+      }
+
+      .d-flex.gap-3 { 
+        gap: 0.75rem !important; 
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+      
+      .d-flex.gap-3 > div {
+        min-width: 200px !important;
+        max-width: 280px !important;
+        width: 100% !important;
+      }
+
+      .channel-avatar {
+        width: 100px;
+        height: 100px;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 0 1rem;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .d-flex.gap-3 > div {
+        min-width: 110px !important;
+        font-size: 0.85rem;
+      }
+      
+      .d-flex.gap-3 > div span {
+        font-size: 1.6rem !important;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .d-flex.gap-3 > div {
+        min-width: 120px !important;
+      }
+    }
+
+    /* Enhanced Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #ff4444 0%, #ff6666 100%);
+    }
+
+    /* Modern Loading Animation */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+
+    .pulse-animation {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Enhanced Focus States */
+    *:focus {
+      outline: 2px solid var(--primary-red);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Smooth Transitions */
+    * {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        <i class="fab fa-youtube me-2"></i>Socify Analytics
+      </a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5" style="margin-top: 80px;">
+
+    <!-- Modern YouTube Analytics Hero Card -->
+    <div class="big-glass-card position-relative">
+      <!-- Floating YouTube Logo with Enhanced Animation -->
+      <div class="position-absolute pulse-animation" style="top: -50px; left: 40px; z-index: 10;">
+        <div style="background: var(--primary-gradient); padding: 20px; border-radius: 50%; box-shadow: var(--shadow-primary);">
+          <i class="fab fa-youtube" style="font-size: 3.5rem; color: white; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));"></i>
+        </div>
+      </div>
+
+      <!-- Enhanced Header Section -->
+      <div class="text-center mb-5" style="padding-top: 2rem;">
+        <h1 class="section-title mb-3">YouTube Analytics Dashboard</h1>
+        <p style="color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+          Comprehensive insights into your YouTube channel performance with real-time analytics and AI-powered predictions
+        </p>
+      </div>
+
+              <div class="row g-3">
+                {% set videos = youtube_stats.recent_videos %}
+                {% for i in range(3) %}
+                  {% set video = videos[i] if videos|length > i else None %}
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="video-card-modern" style="background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%); border-radius: 16px; padding: 1.25rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); text-align: center; transition: var(--transition); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden;">
+                      <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(255, 0, 0, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%); transition: opacity 0.3s ease;"></div>
+                      <div class="position-relative z-1">
+                        {% if video %}
+                          <div class="video-thumbnail-container mb-3" style="position: relative; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+                            <img src="{{ video.thumbnail }}" alt="Video Thumbnail" style="width: 100%; height: 120px; border-radius: 12px; object-fit: cover; transition: var(--transition);">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center opacity-0" style="background: rgba(255, 0, 0, 0.8); transition: opacity 0.3s ease;">
+                              <i class="fas fa-play" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                          </div>
+                          <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1rem; margin-bottom: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ video.title }}
+                          </h4>
+                          <div class="stats-row mb-2" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 4px; color: var(--primary-red); font-weight: 700;">
+                              <i class="fas fa-eye" style="font-size: 0.9rem;"></i>
+                              <span style="font-size: 1.1rem;">{{ video.views | format_followers }}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px; color: var(--accent-blue); font-weight: 700;">
+                              <i class="fas fa-thumbs-up" style="font-size: 0.9rem;"></i>
+                              <span style="font-size: 1.1rem;">{{ video.likes | format_followers }}</span>
+                            </div>
+                          </div>
+                          <div style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #ff6a00; font-weight: 700;">
+                            <i class="fas fa-comment" style="font-size: 0.9rem;"></i>
+                            <span style="font-size: 1rem;">{{ video.comments | format_followers }}</span>
+                          </div>
+                        {% else %}
+                          <div class="text-center py-4">
+                            <div class="mb-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 12px; padding: 24px;">
+                              <i class="fab fa-youtube" style="font-size: 3rem; color: var(--accent-blue); opacity: 0.5;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-weight: 600; font-size: 1rem; margin-bottom: 8px;">No video available</h4>
+                            <div class="d-flex justify-content-center gap-3 text-muted" style="font-size: 0.9rem;">
+                              <span><i class="fas fa-eye me-1"></i>0</span>
+                              <span><i class="fas fa-thumbs-up me-1"></i>0</span>
+                              <span><i class="fas fa-comment me-1"></i>0</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            <!-- Subtle background pattern -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background: linear-gradient(45deg, transparent 30%, rgba(255, 0, 0, 0.05) 50%, transparent 70%);"></div>
+            
+            <div class="position-relative z-1 text-center w-100">
+              <div class="mb-4">
+                <img src="{{ youtube_stats.profile_image or 'https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png' }}" 
+                     alt="Channel Logo" 
+                     class="channel-avatar">
+              </div>
+              
+              <h2 style="color: var(--text-primary); font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px;">
+                {{ youtube_stats.channel or 'Your YouTube Channel' }}
+              </h2>
+              
+              <p style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500; margin-bottom: 24px; line-height: 1.5; max-width: 300px;">
+                {{ youtube_stats.description or 'Connect your YouTube channel to see detailed analytics and insights.' }}
+              </p>
+
+              <!-- Enhanced Stats Grid with Modern Cards -->
+              <div class="d-flex gap-3 mb-2 w-100 justify-content-center flex-wrap">
+                <!-- Subscribers Card -->
+                <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%); border-radius: 18px; padding: 20px 24px; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15); text-align: center; min-width: 140px; border: 2px solid rgba(255, 0, 0, 0.1); transition: var(--transition);" class="stat-hover-card">
+                  <span style="font-size: 2.4rem; color: var(--primary-red); font-weight: 800; display: block; line-height: 1;">{{ youtube_stats.subscribers | format_followers }}</span>
+                  <div style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 700; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fas fa-users" style="font-size: 0.8rem;"></i>
+                    Subscribers
+                  </div>
+                </div>
+
+                <!-- Total Views Card -->
+                <div style="background: linear-gradient(135deg, #f0f4ff 0%, #e0e8ff 100%); border-radius: 18px; padding: 20px 24px; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15); text-align: center; min-width: 140px; border: 2px solid rgba(102, 126, 234, 0.1); transition: var(--transition);" class="stat-hover-card">
+                  <span style="font-size: 2.4rem; color: var(--accent-blue); font-weight: 800; display: block; line-height: 1;">{{ youtube_stats.total_views | format_followers }}</span>
+                  <div style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 700; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fas fa-eye" style="font-size: 0.8rem;"></i>
+                    Total Views
+                  </div>
+                </div>
+
+                <!-- AI Predicted Views Card -->
+                {% if predicted_views %}
+                <div style="background: var(--primary-gradient); border-radius: 18px; padding: 20px 24px; box-shadow: var(--shadow-primary); text-align: center; min-width: 140px; position: relative; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.2);" class="stat-hover-card">
+                  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.2) 0%, transparent 50%); opacity: 0.6;"></div>
+                  <div class="position-relative z-1">
+                    <span style="font-size: 2.4rem; color: white; font-weight: 800; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); display: block; line-height: 1;">{{ predicted_views }}</span>
+                    <div style="color: white; font-size: 0.9rem; font-weight: 700; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px;">
+                      <i class="fas fa-robot" style="font-size: 0.8rem;"></i>
+                      AI Predicted Views
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- Total Comments Card -->
+                {% if youtube_stats.total_comments is defined %}
+                <div style="background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%); border-radius: 18px; padding: 20px 24px; box-shadow: 0 4px 20px rgba(40, 167, 69, 0.15); text-align: center; min-width: 140px; border: 2px solid rgba(40, 167, 69, 0.1); transition: var(--transition);" class="stat-hover-card">
+                  <span style="font-size: 2.4rem; color: #28a745; font-weight: 800; display: block; line-height: 1;">{{ youtube_stats.total_comments | format_followers }}</span>
+                  <div style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fas fa-comments" style="font-size: 0.8rem;"></i>
+                    Total Comments
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Enhanced Latest Videos Box -->
+        <div class="col-md-7">
+          <div class="inner-glass-card p-4 h-100 position-relative overflow-hidden">
+            <!-- Subtle background gradient -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.05) 50%, transparent 100%);"></div>
+            
+            <div class="position-relative z-1">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 style="color: var(--primary-red); font-size: 1.8rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 12px;">
+                  <div style="background: var(--primary-gradient); padding: 8px; border-radius: 12px;">
+                    <i class="fas fa-video" style="color: white; font-size: 1rem;"></i>
+                  </div>
+                  Latest Videos
+                </h3>
+                <span style="background: rgba(102, 126, 234, 0.1); color: var(--accent-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                  Last 3 Videos
+                </span>
+              </div>
+
+              <div class="row g-3">
+                {% set videos = youtube_stats.recent_videos %}
+                {% for i in range(3) %}
+                  {% set video = videos[i] if videos|length > i else None %}
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="video-card-modern" style="background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%); border-radius: 16px; padding: 1.25rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); text-align: center; transition: var(--transition); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden;">
+                      <!-- Hover effect overlay -->
+                      <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(255, 0, 0, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%); transition: opacity 0.3s ease;"></div>
+                      
+                      <div class="position-relative z-1">
+                        {% if video %}
+                          <div class="video-thumbnail-container mb-3" style="position: relative; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+                            <img src="{{ video.thumbnail }}" alt="Video Thumbnail" style="width: 100%; height: 120px; border-radius: 12px; object-fit: cover; transition: var(--transition);">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center opacity-0" style="background: rgba(255, 0, 0, 0.8); transition: opacity 0.3s ease;">
+                              <i class="fas fa-play" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                          </div>
+                          
+                          <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1rem; margin-bottom: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ video.title }}
+                          </h4>
+                          
+                          <div class="stats-row mb-2" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 4px; color: var(--primary-red); font-weight: 700;">
+                              <i class="fas fa-eye" style="font-size: 0.9rem;"></i>
+                              <span style="font-size: 1.1rem;">{{ video.views | format_followers }}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px; color: var(--accent-blue); font-weight: 700;">
+                              <i class="fas fa-thumbs-up" style="font-size: 0.9rem;"></i>
+                              <span style="font-size: 1.1rem;">{{ video.likes | format_followers }}</span>
+                            </div>
+                          </div>
+                          
+                          <div style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #ff6a00; font-weight: 700;">
+                            <i class="fas fa-comment" style="font-size: 0.9rem;"></i>
+                            <span style="font-size: 1rem;">{{ video.comments | format_followers }}</span>
+                          </div>
+                        {% else %}
+                          <div class="text-center py-4">
+                            <div class="mb-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 12px; padding: 24px;">
+                              <i class="fab fa-youtube" style="font-size: 3rem; color: var(--accent-blue); opacity: 0.5;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-weight: 600; font-size: 1rem; margin-bottom: 8px;">No video available</h4>
+                            <div class="d-flex justify-content-center gap-3 text-muted" style="font-size: 0.9rem;">
+                              <span><i class="fas fa-eye me-1"></i>0</span>
+                              <span><i class="fas fa-thumbs-up me-1"></i>0</span>
+                              <span><i class="fas fa-comment me-1"></i>0</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Enhanced Video Analytics Graphs -->
+      <div class="row mt-5 g-4">
+        <div class="col-12">
+          <div class="text-center mb-4">
+            <h3 class="section-title" style="font-size: 2rem; margin-bottom: 0.5rem;">Performance Analytics</h3>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Interactive charts showing your video performance trends</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+          <div class="inner-glass-card p-3 h-100 chart-card" style="transition: var(--transition); position: relative; overflow: hidden;">
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(255, 0, 0, 0.05) 0%, transparent 100%); transition: opacity 0.3s ease;"></div>
+            <div class="position-relative z-1">
+              <h5 style="color: var(--primary-red); font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div style="background: var(--primary-gradient); padding: 6px; border-radius: 8px;">
+                  <i class="fas fa-eye" style="color: white; font-size: 0.9rem;"></i>
+                </div>
+                Views Analytics
+              </h5>
+              <div style="height: 140px; position: relative;">
+                <canvas id="viewsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+          <div class="inner-glass-card p-3 h-100 chart-card" style="transition: var(--transition); position: relative; overflow: hidden;">
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%); transition: opacity 0.3s ease;"></div>
+            <div class="position-relative z-1">
+              <h5 style="color: var(--accent-blue); font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div style="background: var(--secondary-gradient); padding: 6px; border-radius: 8px;">
+                  <i class="fas fa-thumbs-up" style="color: white; font-size: 0.9rem;"></i>
+                </div>
+                Likes Analytics
+              </h5>
+              <div style="height: 140px; position: relative;">
+                <canvas id="likesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-12">
+          <div class="inner-glass-card p-3 h-100 chart-card" style="transition: var(--transition); position: relative; overflow: hidden;">
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(255, 106, 0, 0.05) 0%, transparent 100%); transition: opacity 0.3s ease;"></div>
+            <div class="position-relative z-1">
+              <h5 style="color: #ff6a00; font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div style="background: linear-gradient(135deg, #ff6a00 0%, #ff8533 100%); padding: 6px; border-radius: 8px;">
+                  <i class="fas fa-comment" style="color: white; font-size: 0.9rem;"></i>
+                </div>
+                Comments Analytics
+              </h5>
+              <div style="height: 140px; position: relative;">
+                <canvas id="commentsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Latest Comments Section -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="inner-glass-card p-4 position-relative overflow-hidden">
+            <!-- Background pattern -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background: linear-gradient(45deg, transparent 30%, rgba(102, 126, 234, 0.05) 50%, transparent 70%);"></div>
+            
+            <div class="position-relative z-1">
+              <div class="text-center mb-4">
+                <h3 style="color: var(--accent-blue); font-size: 2rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 12px;">
+                  <div style="background: var(--secondary-gradient); padding: 10px; border-radius: 12px;">
+                    <i class="fas fa-comments" style="color: white; font-size: 1.2rem;"></i>
+                  </div>
+                  Latest Video Comments
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Recent audience engagement from your most recent video</p>
+              </div>
+
+              {% if youtube_stats.latest_video_comments_list and youtube_stats.latest_video_comments_list|length > 0 %}
+                <div class="row g-3">
+                  {% for comment in youtube_stats.latest_video_comments_list[:6] %}
+                    <div class="col-lg-6 col-md-6 mb-3">
+                      <div class="comment-card" style="background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%); border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1); transition: var(--transition); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden;">
+                        <!-- Hover effect -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%); transition: opacity 0.3s ease;"></div>
+                        
+                        <div class="position-relative z-1">
+                          <div class="d-flex align-items-start mb-3">
+                            {% if comment.author_profile_image %}
+                              <img src="{{ comment.author_profile_image }}" alt="{{ comment.author }}" 
+                                   style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-blue); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); margin-right: 12px;">
+                            {% else %}
+                              <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--secondary-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; margin-right: 12px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+                                {{ comment.author[0] if comment.author else 'U' }}
+                              </div>
+                            {% endif %}
+                            
+                            <div class="flex-grow-1">
+                              <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 style="color: var(--text-primary); font-weight: 700; font-size: 1rem; margin: 0;">{{ comment.author }}</h6>
+                                <small style="color: var(--text-secondary); font-weight: 500; font-size: 0.85rem;">{{ comment.published_at if comment.published_at else 'Recent' }}</small>
+                              </div>
+                              
+                              <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0; line-height: 1.6; font-weight: 500;">
+                                "{{ comment.text[:150] }}{% if comment.text|length > 150 %}...{% endif %}"
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                
+                {% if youtube_stats.latest_video_comments_list|length > 6 %}
+                  <div class="text-center mt-4">
+                    <div style="background: rgba(102, 126, 234, 0.1); color: var(--accent-blue); padding: 12px 24px; border-radius: 25px; display: inline-flex; align-items: center; gap: 8px; font-weight: 600;">
+                      <i class="fas fa-plus-circle"></i>
+                      {{ youtube_stats.latest_video_comments_list|length - 6 }} more comments available
+                    </div>
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="text-center py-5">
+                  <div class="mb-4" style="background: rgba(102, 126, 234, 0.1); border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <i class="fas fa-comment-slash" style="font-size: 3rem; color: var(--accent-blue); opacity: 0.6;"></i>
+                  </div>
+                  <h4 style="color: var(--text-primary); font-weight: 700; margin-bottom: 8px;">No Recent Comments</h4>
+                  <p style="color: var(--text-secondary); margin: 0; font-size: 1.1rem;">Comments will appear here when your YouTube videos receive interactions</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Enhanced GSAP Animations
+      if (typeof gsap !== 'undefined') {
+        // Create main timeline
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        
+        // Animate elements in sequence
+        tl.from(".big-glass-card", { 
+          duration: 1.2, 
+          y: 100, 
+          opacity: 0, 
+          scale: 0.9,
+          ease: "back.out(1.7)"
+        })
+        .from(".pulse-animation", { 
+          duration: 1, 
+          scale: 0, 
+          rotation: 180,
+          ease: "elastic.out(1, 0.3)"
+        }, "-=0.8")
+        .from(".inner-glass-card", { 
+          duration: 1, 
+          y: 50, 
+          opacity: 0, 
+          stagger: 0.2
+        }, "-=0.6")
+        .from(".stat-hover-card", { 
+          duration: 0.8, 
+          scale: 0.8, 
+          opacity: 0, 
+          stagger: 0.1,
+          ease: "back.out(1.7)"
+        }, "-=0.4")
+        .from(".video-card-modern", { 
+          duration: 0.8, 
+          y: 30, 
+          opacity: 0, 
+          stagger: 0.1
+        }, "-=0.3")
+        .from(".chart-card", { 
+          duration: 0.8, 
+          scale: 0.9, 
+          opacity: 0, 
+          stagger: 0.15
+        }, "-=0.2")
+        .from(".comment-card", { 
+          duration: 0.6, 
+          x: -30, 
+          opacity: 0, 
+          stagger: 0.1
+        }, "-=0.1");
+      }
+
+      // Add hover effects for stat cards
+      document.querySelectorAll('.stat-hover-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              scale: 1.05, 
+              y: -10,
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+              ease: "power2.out"
+            });
+          }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              scale: 1, 
+              y: 0,
+              boxShadow: "0 4px 20px rgba(102, 126, 234, 0.15)",
+              ease: "power2.out"
+            });
+          }
+        });
+      });
+
+      // Add hover effects for video cards
+      document.querySelectorAll('.video-card-modern').forEach(card => {
+        const overlay = card.querySelector('.position-absolute.opacity-0');
+        const thumbnail = card.querySelector('.video-thumbnail-container .position-absolute');
+        
+        card.addEventListener('mouseenter', function() {
+          if (overlay) overlay.style.opacity = '1';
+          if (thumbnail) thumbnail.style.opacity = '1';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: -8, 
+              scale: 1.02,
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)"
+            });
+          }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          if (overlay) overlay.style.opacity = '0';
+          if (thumbnail) thumbnail.style.opacity = '0';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: 0, 
+              scale: 1,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)"
+            });
+          }
+        });
+      });
+
+      // Add hover effects for chart cards
+      document.querySelectorAll('.chart-card').forEach(card => {
+        const overlay = card.querySelector('.position-absolute.opacity-0');
+        
+        card.addEventListener('mouseenter', function() {
+          if (overlay) overlay.style.opacity = '1';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: -6, 
+              scale: 1.02
+            });
+          }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          if (overlay) overlay.style.opacity = '0';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: 0, 
+              scale: 1
+            });
+          }
+        });
+      });
+
+      // Add hover effects for comment cards
+      document.querySelectorAll('.comment-card').forEach(card => {
+        const overlay = card.querySelector('.position-absolute.opacity-0');
+        
+        card.addEventListener('mouseenter', function() {
+          if (overlay) overlay.style.opacity = '1';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: -4, 
+              scale: 1.01,
+              boxShadow: "0 12px 30px rgba(102, 126, 234, 0.2)"
+            });
+          }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          if (overlay) overlay.style.opacity = '0';
+          if (typeof gsap !== 'undefined') {
+            gsap.to(this, { 
+              duration: 0.3, 
+              y: 0, 
+              scale: 1,
+              boxShadow: "0 4px 20px rgba(102, 126, 234, 0.1)"
+            });
+          }
+        });
+      });
+
+      // Enhanced Chart.js configurations
+      const videos = JSON.parse(`{{ youtube_stats.recent_videos | tojson | safe }}`);
+      const videoLabels = ['Latest', 'Previous', 'Older'];
+      const viewsData = [];
+      const likesData = [];
+      const commentsData = [];
+      
+      for (let i = 0; i < 3; i++) {
+        if (videos && videos[i]) {
+          viewsData.push(videos[i].views || 0);
+          likesData.push(videos[i].likes || 0);
+          commentsData.push(videos[i].comments || 0);
+        } else {
+          viewsData.push(0);
+          likesData.push(0);
+          commentsData.push(0);
+        }
+      }
+
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleColor: '#ffffff',
+            bodyColor: '#ffffff',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            cornerRadius: 8,
+            displayColors: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            display: true,
+            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+            ticks: {
+              color: '#6b7280',
+              font: { size: 10, weight: '600' },
+              maxTicksLimit: 4
+            }
+          },
+          x: {
+            display: true,
+            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+            ticks: {
+              color: '#6b7280',
+              font: { size: 10, weight: '600' }
+            }
+          }
+        },
+        elements: {
+          point: { radius: 4, hoverRadius: 6 },
+          line: { tension: 0.4 }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        }
+      };
+
+      // Views Chart
+      const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+      new Chart(viewsCtx, {
+        type: 'line',
+        data: {
+          labels: videoLabels,
+          datasets: [{
+            label: 'Views',
+            data: viewsData,
+            borderColor: '#ff0000',
+            backgroundColor: 'rgba(255, 0, 0, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#ff0000',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            fill: true
+          }]
+        },
+        options: chartOptions
+      });
+
+      // Likes Chart
+      const likesCtx = document.getElementById('likesChart').getContext('2d');
+      new Chart(likesCtx, {
+        type: 'line',
+        data: {
+          labels: videoLabels,
+          datasets: [{
+            label: 'Likes',
+            data: likesData,
+            borderColor: '#6a7cff',
+            backgroundColor: 'rgba(106, 124, 255, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#6a7cff',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            fill: true
+          }]
+        },
+        options: chartOptions
+      });
+
+      // Comments Chart
+      const commentsCtx = document.getElementById('commentsChart').getContext('2d');
+      new Chart(commentsCtx, {
+        type: 'line',
+        data: {
+          labels: videoLabels,
+          datasets: [{
+            label: 'Comments',
+            data: commentsData,
+            borderColor: '#ff6a00',
+            backgroundColor: 'rgba(255, 106, 0, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#ff6a00',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            fill: true
+          }]
+        },
+        options: chartOptions
+      });
+
+      // Smooth scroll for better UX
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Add loading states
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+      }, 100);
+    });
+  </script>
+</body>
+</html>

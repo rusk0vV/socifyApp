@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SocialFlow - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80') center/cover no-repeat fixed;
+      min-height: 100vh;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      position: relative;
+      overflow-x: hidden;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 20, 40, 0.7);
+      z-index: 0;
+      backdrop-filter: blur(2px);
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.2) 30%, rgba(240, 147, 251, 0.1) 70%, rgba(102, 126, 234, 0.3) 100%);
+      z-index: 0;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .navbar {
+      background: rgba(0, 20, 40, 0.95);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid rgba(102, 126, 234, 0.4);
+      backdrop-filter: blur(15px);
+      position: relative;
+      z-index: 1000;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2rem;
+      color: #667eea;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(102, 126, 234, 0.8);
+    }
+    .nav-link {
+      color: #ffffff;
+      font-size: 1.1rem;
+      margin-right: 18px;
+      transition: color 0.2s;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .nav-link:hover {
+      color: #667eea;
+    }
+    .btn-login {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-weight: 600;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+      border: none;
+      transition: background 0.2s, box-shadow 0.2s;
+      font-size: 1.2rem;
+      padding: 12px 32px;
+    }
+    .btn-login:hover {
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      box-shadow: 0 4px 16px rgba(118, 75, 162, 0.5);
+      transform: scale(1.05);
+      color: white;
+    }
+    .btn-getstarted {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(240, 147, 251, 0.5);
+      border: none;
+      transition: background 0.2s, box-shadow 0.2s;
+      font-size: 1.2rem;
+      padding: 12px 32px;
+    }
+    .btn-getstarted:hover {
+      background: linear-gradient(135deg, #f5576c, #f093fb);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(245, 87, 108, 0.5);
+      transform: scale(1.05);
+    }
+    .hero {
+      padding: 90px 0 40px 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      margin: 32px auto 0 auto;
+      max-width: 1100px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .hero-subtitle {
+      font-size: 1.7rem;
+      color: #f093fb;
+      margin-bottom: 38px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      font-weight: 500;
+    }
+    .hero-metrics {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 40px 0 0 0;
+      flex-wrap: wrap;
+    }
+    .metric-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 28px 36px;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+      color: #ffffff;
+      min-width: 180px;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(15px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .metric-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.4);
+    }
+    .metric-label {
+      font-size: 1.1rem;
+      color: #f093fb;
+      font-weight: 400;
+      margin-top: 8px;
+      display: block;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    /* Classy image styling for large images in random places */
+    .classy-img {
+      border-radius: 24px;
+      box-shadow: 0 8px 32px #647dee80;
+      margin: 48px auto;
+      display: block;
+      max-width: 80vw;
+      max-height: 400px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #232526 0%, #414345 100%);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .classy-img:hover {
+      transform: scale(1.04) rotate(-1deg);
+      box-shadow: 0 16px 48px #43cea280;
+    }
+    .platforms-section {
+      margin: 60px 0 0 0;
+      text-align: center;
+    }
+    .platforms-title {
+      font-size: 2.7rem;
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 18px;
+      letter-spacing: 1.5px;
+      padding: 0.5rem 2rem;
+      border-radius: 18px;
+      background: rgba(10, 16, 38, 0.72);
+      display: inline-block;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+      text-shadow: 0 4px 16px #000, 0 1px 0 #222, 0 0 2px #fff;
+      position: relative;
+      z-index: 2;
+    }
+    .container, .hero, .glass-section {
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 95vw;
+      box-sizing: border-box;
+    }
+    .platform-cards {
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      flex-wrap: nowrap;
+      margin-top: 18px;
+      margin-bottom: 64px;
+      align-items: stretch;
+    }
+    .platform-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 48px 24px 32px 24px;
+      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+      min-width: 260px;
+      max-width: 300px;
+      text-align: center;
+      color: #ffffff;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 320px;
+      backdrop-filter: blur(15px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .platform-icon {
+      font-size: 3.2rem;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    }
+    .platform-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .platform-users {
+      font-size: 1.1rem;
+      background: rgba(0, 0, 0, 0.3);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 6px 16px;
+      display: inline-block;
+      margin-top: 8px;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .review-card {
+      display: none;
+    }
+    .review-card.active {
+      display: block;
+    }
+    .glass-section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 48px 48px;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      margin: 40px auto;
+      max-width: 1200px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer {
+      text-align: center;
+      color: #ffffff;
+      padding: 32px 0 12px 0;
+      font-size: 1.1rem;
+      background: rgba(0, 20, 40, 0.95);
+      border-top: 2px solid rgba(102, 126, 234, 0.4);
+      margin-top: 60px;
+      backdrop-filter: blur(15px);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Ziggle animation for Socify logo */
+    .ziggle-logo {
+      animation: ziggleUpDown 2.8s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes ziggleUpDown {
+      0% { transform: translateY(0); }
+      20% { transform: translateY(-8px); }
+      50% { transform: translateY(0); }
+      70% { transform: translateY(8px); }
+      100% { transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .hero-subtitle { font-size: 1.1rem; }
+      .glass-section { padding: 18px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" id="main-navbar">
+    <div class="container">
+      <a class="navbar-brand ziggle-logo" href="#">Socify</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('reviews') }}">Reviews</a></li>
+        </ul>
+        <a href="{{ url_for('login') }}" class="btn btn-login ms-3">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" style="margin-top: 130px;">
+    <h1 class="hero-title" id="gsap-title">Social Media Analytics Reimagined</h1>
+    <div class="hero-metrics">
+      <div class="metric-card">
+        10k+<br><span class="metric-label">Posts Analyzed</span>
+      </div>
+      
+      <div class="metric-card">
+        99.9%<br><span class="metric-label">Uptime</span>
+      </div>
+      <div class="metric-card">
+        150%<br><span class="metric-label">Avg. Engagement Boost</span>
+      </div>
+      <div class="metric-card">
+        AI<br><span class="metric-label">Powered Predictions</span>
+      </div>
+    </div>
+    <div class="hero-btns" style="margin-top:48px;">
+      <a href="{{ url_for('login') }}" class="btn btn-login btn-lg me-3">View Dashboard</a>
+      <a href="#features" class="btn btn-getstarted btn-lg me-3">Get Started</a>
+      <a href="#features" class="btn btn-outline-light btn-lg">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Platforms Section -->
+  <section class="platforms-section" style="margin-top: 60px;">
+    <div class="platforms-title">All Platforms, One Dashboard</div>
+  <!-- SocialFlow Call-to-Action Section (from screenshot) -->
+  <section class="glass-section" style="margin-top:48px;margin-bottom:48px;background:rgba(255, 255, 255, 0.15);text-align:center;max-width:100vw;">
+    <h1 style="font-size:3rem;font-weight:800;color:#ffffff;margin-bottom:24px;text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">Ready to Transform Your Social Strategy?</h1>
+    <div style="font-size:1.4rem;color:#f0f0f0;margin-bottom:32px;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Join thousands of brands already using SocialFlow to drive engagement and growth <span style="color:#f093fb;font-size:2rem;vertical-align:middle;">&#9679;</span></div>
+    <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="#" class="btn" style="background:#f093fb;color:#000;font-weight:700;font-size:1.2rem;padding:16px 38px;border-radius:14px;box-shadow:0 2px 8px rgba(240, 147, 251, 0.5);">Start Free Trial</a>
+      <a href="#" class="btn" style="background:rgba(0, 0, 0, 0.5);color:#fff;font-weight:700;font-size:1.2rem;padding:16px 38px;border-radius:14px;box-shadow:0 2px 8px rgba(0, 0, 0, 0.3);backdrop-filter: blur(10px);">View Live Demo</a>
+    </div>
+  </section>
+    <h3 class="mb-3" style="font-size:2rem;color:#fff;font-weight:900;letter-spacing:1.5px;padding:0.5rem 2rem;border-radius:18px;background:rgba(10,16,38,0.72);display:inline-block;box-shadow:0 4px 24px rgba(0,0,0,0.25);text-shadow:0 4px 16px #000,0 1px 0 #222,0 0 2px #fff;position:relative;z-index:2;">Connect all your social media accounts and manage everything from a single, powerful interface</h3>
+    <div class="platform-cards" >
+      <div class="platform-card" style="margin-top:98px;">
+        <span class="platform-icon platform-instagram"><i class="fab fa-instagram"></i></span>
+        <br>
+        <div class="platform-label">Instagram</div>
+        <div class="platform-users">2.1B users</div>
+      </div>
+      <div class="platform-card" style="margin-top:19px;">
+        <span class="platform-icon" style="color:#ff0000;"><i class="fab fa-youtube"></i></span>
+        <div class="platform-label">YouTube</div>
+        <div class="platform-users">2.7B users</div>
+      </div>
+      <div class="platform-card" style="margin-top:39px;">
+        <span class="platform-icon" style="color:#ff4500;"><i class="fab fa-reddit"></i></span>
+        <div class="platform-label">Reddit</div>
+        <div class="platform-users">430M users</div>
+      </div>
+      <div class="platform-card" style="margin-top:59px;">
+        <span class="platform-icon" style="color:#333;"><i class="fab fa-github"></i></span>
+        <div class="platform-label">GitHub</div>
+        <div class="platform-users">100M users</div>
+      </div>
+    </div>
+    <br>
+
+
+
+  <!-- Features Section -->
+  <section id="features" class="glass-section" style="margin-top: 150px;">
+    <h2 class="mb-4" style="color:#ffffff;text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">Features</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-chart-line fa-2x mb-2" style="color:#f093fb;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Real-time Analytics</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Monitor your social media performance in real-time with comprehensive dashboards and insights.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-users fa-2x mb-2" style="color:#667eea;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Audience Intelligence</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Understand your audience better with detailed demographic and behavioral analytics.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-bolt fa-2x mb-2" style="color:#ff6a00;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Growth Optimization</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Optimize your content strategy with AI-powered recommendations and trend analysis.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-shield-alt fa-2x mb-2" style="color:#667eea;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Brand Protection</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Monitor brand mentions and sentiment across all major social platforms.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-bolt fa-2x mb-2" style="color:#f093fb;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Automation Tools</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Automate reporting and alerts to stay on top of your social media game.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-3">
+          <i class="fas fa-eye fa-2x mb-2" style="color:#667eea;"></i>
+          <h5 style="color:#ffffff;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Visual Insights</h5>
+          <p style="color:#f0f0f0;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Beautiful, interactive visualizations that make data easy to understand and share.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Socify Section (Inspired by Hootsuite) -->
+  <section id="why-socify" class="glass-section" style="background:linear-gradient(135deg,rgba(35,37,38,0.85) 0%,rgba(65,67,69,0.85) 100%);margin-top:148px;">
+    <h2 class="mb-4" style="color:#b993fe;font-size:2.6rem;font-weight:800;text-align:center;">Why Socify?</h2>
+    <p style="text-align:center;font-size:1.2rem;color:#bdbdbd;margin-bottom:40px;">Don’t worry, we won’t make you read our 2,000+ five-star reviews. A few highlights: superior customer service, top-notch security features, and the best blog, webinars, and social media academy in the industry.</p>
+    <div class="row justify-content-center text-center" style="margin-bottom:32px;">
+      <div class="col-md-4 mb-4">
+        <div style="width:80px;height:80px;margin:auto;margin-bottom:12px;">
+          <!-- Owl SVG -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="40" cy="50" rx="24" ry="18" fill="#43cea2" />
+            <ellipse cx="32" cy="50" rx="6" ry="7" fill="#fff" />
+            <ellipse cx="48" cy="50" rx="6" ry="7" fill="#fff" />
+            <circle cx="32" cy="50" r="3" fill="#232526" />
+            <circle cx="48" cy="50" r="3" fill="#232526" />
+            <polygon points="40,38 36,46 44,46" fill="#232526" />
+            <ellipse cx="40" cy="60" rx="8" ry="3" fill="#232526" />
+          </svg>
+        </div>
+        <h3 style="font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;">17 years and 25 million users</h3>
+        <p style="color:#bdbdbd;font-size:1.1rem;">Socify was the first, and we’re still the most popular 17 years later. Over 25 million users have used Socify to post, track, and out-perform their competitors on social media.</p>
+        <a href="#about" class="btn btn-outline-light mt-3" style="font-size:1.1rem;padding:12px 32px;border-radius:12px;">More about us</a>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div style="width:80px;height:80px;margin:auto;margin-bottom:12px;">
+          <!-- Sparkles SVG -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <polygon points="40,20 44,36 60,40 44,44 40,60 36,44 20,40 36,36" fill="#43cea2">
+                <animateTransform attributeName="transform" type="rotate" from="0 40 40" to="360 40 40" dur="2s" repeatCount="indefinite" />
+              </polygon>
+              <circle cx="40" cy="40" r="6" fill="#b993fe" />
+            </g>
+          </svg>
+        </div>
+        <h3 style="font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;">The ultimate social media AI</h3>
+        <p style="color:#bdbdbd;font-size:1.1rem;">Socify helps you automate every part of social media management — posting, writing, messaging, and social listening. Our AI was designed by social pros for social pros.</p>
+        <a href="#features" class="btn btn-outline-light mt-3" style="font-size:1.1rem;padding:12px 32px;border-radius:12px;">Learn more</a>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div style="width:80px;height:80px;margin:auto;margin-bottom:12px;">
+          <!-- Cable SVG Animation -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <rect x="35" y="30" width="10" height="30" rx="5" fill="#43cea2">
+                <animate attributeName="y" values="30;40;30" dur="1.5s" repeatCount="indefinite" />
+              </rect>
+              <rect x="30" y="60" width="20" height="8" rx="4" fill="#43cea2">
+                <animate attributeName="y" values="60;65;60" dur="1.5s" repeatCount="indefinite" />
+              </rect>
+              <rect x="37" y="20" width="6" height="10" rx="3" fill="#43cea2">
+                <animate attributeName="y" values="20;25;20" dur="1.5s" repeatCount="indefinite" />
+              </rect>
+            </g>
+          </svg>
+        </div>
+        <h3 style="font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;">The largest library of integrations</h3>
+        <p style="color:#bdbdbd;font-size:1.1rem;">Connect over 100 integrations to bring all your favorite tools into the Socify dashboard. That’s more than any other social media management platform (by far).</p>
+        <a href="#" class="btn btn-outline-light mt-3" style="font-size:1.1rem;padding:12px 32px;border-radius:12px;">Explore integrations</a>
+      </div>
+    </div>
+  </section>
+  <!-- About Section -->
+  <section id="about" class="glass-section" style="margin-top: 150px; background:rgba(255, 255, 255, 0.1);">
+    <h2 class="mb-4" style="color:#ffffff;font-size:2.4rem;font-weight:800;font-family:'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;text-align:center;text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">About Us</h2>
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-3 d-flex justify-content-center">
+        <img src="/static/pinterest/Screenshot%202025-08-05%20212049.png" alt="Analytics dashboard" style="width:100%;max-width:420px;border-radius:24px;box-shadow:0 8px 32px rgba(102, 126, 234, 0.4);object-fit:cover;">
+      </div>
+      <div class="col-md-6 d-flex flex-column justify-content-center">
+        <p style="font-size:1.2rem;color:#f0f0f0;font-family:'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height:1.7;font-weight:500;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Socify is your unified social media analytics platform, designed to help you track, analyze, and grow your presence across all major platforms. Our mission is to empower creators, brands, and businesses with actionable insights and beautiful dashboards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 100px;">
+    <div>Socify &copy; 2025. All rights reserved.</div>
+    <div class="mt-2">
+      <a href="#" class="text-light me-3">Home</a>
+      <a href="#features" class="text-light me-3">Features</a>
+      <a href="#about" class="text-light me-3">About</a>
+      <a href="#contact" class="text-light">Contact</a>
+    </div>
+  </footer>
+
+  <!-- GSAP Animation -->
+  <script>
+    gsap.from("#gsap-title", { duration: 1.2, y: -60, opacity: 0, ease: "power3.out" });
+    gsap.to(".hero-subtitle", { duration: 1.2, delay: 0.5, y: 20, opacity: 1, ease: "power2.out" });
+    gsap.from(".hero-btns .btn", { duration: 1, delay: 1, scale: 0.8, opacity: 0, stagger: 0.2, ease: "back.out(1.7)" });
+    gsap.from(".glass-section", { duration: 1.2, delay: 1.2, y: 60, opacity: 0, stagger: 0.2, ease: "power2.out" });
+    // GSAP animation for About Us section
+    gsap.from("#about", {
+      duration: 1.4,
+      y: 80,
+      opacity: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top 90%",
+        end: "bottom 60%",
+        scrub: true
+      }
+    });
+    gsap.from("#pinterest-images img", { duration: 1.2, y: 60, opacity: 0, stagger: 0.2, ease: "power2.out" });
+    gsap.from(".platform-card", { duration: 1.2, y: 60, opacity: 0, stagger: 0.15, ease: "power2.out" });
+    // Bubble animation for platform cards on scroll
+    document.querySelectorAll('.platform-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { scale: 0.92, boxShadow: '0 0 0px rgba(255, 255, 255, 0.5)', opacity: 1, y: 100 },
+        {
+          scale: 1.08,
+          boxShadow: '0 0 32px 12px rgba(255, 255, 255, 0.5)',
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 90%',
+            end: 'bottom 60%',
+            scrub: true
+          }
+        }
+      );
+    });
+  </script>
+  <script>
+    // Sticky navbar on scroll
+    const navbar = document.getElementById('main-navbar');
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60) {
+        if (!navbar.classList.contains('fixed-top')) {
+          navbar.classList.add('fixed-top');
+        }
+      } else {
+        navbar.classList.remove('fixed-top');
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    // Fade out hero section as you scroll down
+    gsap.to(".hero", {
+      opacity: 0.1,
+      y: -60,
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom+=200 top",
+        scrub: true
+      }
+    });
+
+    // Pop up SocialFlow intro section as you scroll down
+    gsap.fromTo(
+      ".glass-section:first-of-type",
+      { scale: 0.65 },
+      {
+        scale: 1,
+        duration: 2.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".glass-section:first-of-type",
+          start: "top 95%",
+          end: "bottom 40%",
+          scrub: true
+        }
+      }
+    );
+
+    // GSAP zoom-in and reverse for Why Socify section
+    gsap.fromTo(
+      "#why-socify",
+      { scale: 0.85 },
+      {
+        scale: 1,
+        duration: 2.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#why-socify",
+          start: "top 90%",
+          end: "bottom 40%",
+          scrub: true
+        }
+      }
+    );
+
+    // GSAP slide-in from left for Features section
+    gsap.fromTo(
+      "#features",
+      { x: -200, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 2.4,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#features",
+          start: "top 90%",
+          end: "bottom 60%",
+          scrub: true
+        }
+      }
+    );
+  </script>
+  
+</body>
+</html>

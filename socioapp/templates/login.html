@@ -1,0 +1,1096 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socify - Professional Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+        }
+
+        /* Advanced Background Effects */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.9) 0%, 
+                rgba(118, 75, 162, 0.8) 30%,
+                rgba(240, 147, 251, 0.7) 70%,
+                rgba(102, 126, 234, 0.9) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .bg-illustration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            opacity: 0.15;
+            filter: blur(1px);
+        }
+
+        /* Floating Geometric Shapes */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) { width: 100px; height: 100px; top: 20%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: 4s; }
+        .shape:nth-child(3) { width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: 8s; }
+        .shape:nth-child(4) { width: 120px; height: 120px; top: 30%; left: 70%; animation-delay: 12s; }
+        .shape:nth-child(5) { width: 90px; height: 90px; top: 10%; left: 80%; animation-delay: 16s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.6; }
+        }
+
+        /* Particle System */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: particleFloat 25s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-10vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Brand Header */
+        .brand-header {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            z-index: 20;
+        }
+
+        .brand-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        /* Enhanced Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Typography */
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Enhanced Form Controls */
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 0 0 3px rgba(255, 255, 255, 0.1),
+                0 8px 25px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            z-index: 10;
+        }
+
+        /* Enhanced Button */
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(102, 126, 234, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 35px rgba(102, 126, 234, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Checkbox */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-check-input {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            background: transparent;
+            margin-right: 0.75rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-check-input:checked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .form-check-input:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .form-check-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Links */
+        .forgot-link, .register-link {
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .forgot-link::after, .register-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .forgot-link:hover::after, .register-link:hover::after {
+            width: 100%;
+        }
+
+        .forgot-link:hover, .register-link:hover {
+            color: #f0f9ff !important;
+            transform: translateY(-1px);
+        }
+
+        /* Instagram Profile Display */
+        .instagram-profile {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .instagram-profile.show {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .profile-username {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        /* Alert Styles */
+        .alert {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Footer Links */
+        .footer-links {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .glass-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .card-title {
+                font-size: 2rem;
+            }
+            
+            .brand-header {
+                position: relative;
+                top: auto;
+                left: auto;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Popup Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .success-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .success-popup {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .success-modal.show .success-popup {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+            animation: successBounce 0.6s ease-out;
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-checkmark {
+            color: white;
+            font-size: 2.5rem;
+            animation: checkmarkDraw 0.5s ease-out 0.3s both;
+        }
+
+        @keyframes checkmarkDraw {
+            0% { transform: scale(0) rotate(-45deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+
+        .success-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 3s ease-out;
+        }
+
+        .success-modal.show .progress-bar {
+            width: 100%;
+        }
+
+        .redirect-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4); }
+            50% { box-shadow: 0 10px 40px rgba(76, 175, 80, 0.6); }
+            100% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Background Container -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="bg-illustration"></div>
+        
+        <!-- Floating Geometric Shapes -->
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <!-- Particle System -->
+        <div class="particles" id="particles-container"></div>
+    </div>
+
+    <!-- Brand Header -->
+    <div class="brand-header">
+        <a href="/" class="brand-logo">
+            <i class="fas fa-share-alt me-2"></i>Socify
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+        <div class="glass-card">
+            <h2 class="card-title">Welcome Back</h2>
+            <p class="card-subtitle">Sign in to your account to continue your social media journey</p>
+            
+            <!-- Instagram Profile Display -->
+            <div class="instagram-profile" id="instagram-info" style="display: none;">
+                <img id="insta-profile-pic" src="" alt="Instagram Profile" class="profile-pic">
+                <div id="insta-username" class="profile-username"></div>
+                <div id="insta-bio" class="profile-bio"></div>
+            </div>
+
+            <form method="POST" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user me-2"></i>Username
+                    </label>
+                    <div class="position-relative">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" name="username" class="form-control" required 
+                               placeholder="Enter your username" id="usernameInput">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <div class="position-relative">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" name="password" class="form-control" required 
+                               placeholder="Enter your password" id="passwordInput">
+                    </div>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
+                    <label class="form-check-label" for="rememberMe">
+                        Remember me
+                    </label>
+                </div>
+
+                {% if error %}
+                <div class="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+                </div>
+                {% endif %}
+
+                <button type="submit" class="btn-login" id="loginButton">
+                    <span class="button-text">Sign In</span>
+                    <span class="loading" style="display: none;"></span>
+                </button>
+            </form>
+
+            <div class="footer-links">
+                <span class="footer-text">Don't have an account? </span>
+                <a href="{{ url_for('register') }}" class="register-link">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-popup">
+            <div class="success-icon pulse-animation">
+                <i class="fas fa-check success-checkmark"></i>
+            </div>
+            <h3 class="success-title">Login Successful!</h3>
+            <p class="success-message">
+                Welcome back! You have been successfully authenticated.
+            </p>
+            <div class="success-progress">
+                <div class="progress-bar"></div>
+            </div>
+            <p class="redirect-text">
+                Redirecting to dashboard in <span id="countdown">3</span> seconds...
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Particle System
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof gsap !== 'undefined') {
+                // Set initial states
+                gsap.set('.glass-card', { opacity: 0, y: 50, scale: 0.95 });
+                gsap.set('.brand-header', { opacity: 0, x: -50 });
+
+                // Create entrance animation timeline
+                const tl = gsap.timeline();
+                
+                tl.to('.brand-header', {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                })
+                .to('.glass-card', {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: 'power3.out'
+                }, '-=0.5');
+
+                // Form input animations
+                const inputs = document.querySelectorAll('.form-control');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', () => {
+                        gsap.to(input, {
+                            scale: 1.02,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    });
+
+                    input.addEventListener('blur', () => {
+                        gsap.to(input, {
+                            scale: 1,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    });
+                });
+
+                // Button hover animation
+                const loginButton = document.getElementById('loginButton');
+                loginButton.addEventListener('mouseenter', () => {
+                    gsap.to(loginButton, {
+                        scale: 1.02,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                loginButton.addEventListener('mouseleave', () => {
+                    gsap.to(loginButton, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+        });
+
+        // Enhanced Instagram Profile Fetch
+        let fetchTimeout;
+        document.getElementById('usernameInput').addEventListener('input', function() {
+            const username = this.value.trim();
+            
+            // Clear previous timeout
+            if (fetchTimeout) {
+                clearTimeout(fetchTimeout);
+            }
+
+            // Hide profile if input is empty
+            if (!username) {
+                hideInstagramProfile();
+                return;
+            }
+
+            // Debounce the API call
+            fetchTimeout = setTimeout(() => {
+                fetchInstagramProfile(username);
+            }, 800);
+        });
+
+        function fetchInstagramProfile(username) {
+            const profileContainer = document.getElementById('instagram-info');
+            const pic = document.getElementById('insta-profile-pic');
+            const uname = document.getElementById('insta-username');
+            const bio = document.getElementById('insta-bio');
+
+            // Show loading state
+            showLoadingState();
+
+            fetch('/fetch_instagram_profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.profile_url) {
+                    pic.src = data.profile_url;
+                    pic.style.display = 'block';
+                    uname.textContent = data.username || '';
+                    bio.textContent = data.bio || '';
+                    
+                    showInstagramProfile();
+                } else {
+                    hideInstagramProfile();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching Instagram profile:', error);
+                hideInstagramProfile();
+            });
+        }
+
+        function showLoadingState() {
+            const profileContainer = document.getElementById('instagram-info');
+            profileContainer.style.display = 'block';
+            profileContainer.innerHTML = `
+                <div style="padding: 1rem; text-align: center;">
+                    <div class="loading" style="margin: 0 auto;"></div>
+                    <div style="color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem; font-size: 0.875rem;">
+                        Fetching profile...
+                    </div>
+                </div>
+            `;
+        }
+
+        function showInstagramProfile() {
+            const profileContainer = document.getElementById('instagram-info');
+            const pic = document.getElementById('insta-profile-pic');
+            const uname = document.getElementById('insta-username');
+            const bio = document.getElementById('insta-bio');
+            
+            profileContainer.innerHTML = `
+                <img id="insta-profile-pic" src="${pic.src}" alt="Instagram Profile" class="profile-pic">
+                <div id="insta-username" class="profile-username">${uname.textContent}</div>
+                <div id="insta-bio" class="profile-bio">${bio.textContent}</div>
+            `;
+            
+            profileContainer.style.display = 'block';
+            profileContainer.classList.add('show');
+
+            // Animate profile appearance
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo(profileContainer, 
+                    { opacity: 0, y: 20, scale: 0.95 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power3.out' }
+                );
+            }
+        }
+
+        function hideInstagramProfile() {
+            const profileContainer = document.getElementById('instagram-info');
+            
+            if (typeof gsap !== 'undefined') {
+                gsap.to(profileContainer, {
+                    opacity: 0,
+                    y: -20,
+                    scale: 0.95,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        profileContainer.style.display = 'none';
+                        profileContainer.classList.remove('show');
+                    }
+                });
+            } else {
+                profileContainer.style.display = 'none';
+                profileContainer.classList.remove('show');
+            }
+        }
+
+        // Enhanced Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const button = document.getElementById('loginButton');
+            const buttonText = button.querySelector('.button-text');
+            const loading = button.querySelector('.loading');
+
+            // Show loading state
+            buttonText.style.display = 'none';
+            loading.style.display = 'inline-block';
+            button.disabled = true;
+
+            // Add loading animation
+            if (typeof gsap !== 'undefined') {
+                gsap.to(button, {
+                    scale: 0.98,
+                    duration: 0.1,
+                    ease: 'power2.out'
+                });
+            }
+
+            // Note: Form will submit normally, but this gives visual feedback
+            setTimeout(() => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(button, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: 'power2.out'
+                    });
+                }
+            }, 100);
+        });
+
+        // Success Popup Functions
+        function showSuccessPopup() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
+            
+            // Start countdown
+            startCountdown();
+            
+            // GSAP animation for popup appearance
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo('.success-popup', 
+                    { scale: 0.5, rotation: -10, opacity: 0 },
+                    { scale: 1, rotation: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' }
+                );
+                
+                // Animate success icon
+                gsap.fromTo('.success-icon', 
+                    { scale: 0, rotation: -180 },
+                    { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.7)', delay: 0.2 }
+                );
+                
+                // Animate checkmark
+                gsap.fromTo('.success-checkmark', 
+                    { scale: 0, rotation: 45 },
+                    { scale: 1, rotation: 0, duration: 0.5, ease: 'back.out(2)', delay: 0.5 }
+                );
+            }
+        }
+
+        function startCountdown() {
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    redirectToDashboard();
+                }
+            }, 1000);
+        }
+
+        function redirectToDashboard() {
+            // Add exit animation
+            if (typeof gsap !== 'undefined') {
+                gsap.to('.success-popup', {
+                    scale: 0.8,
+                    opacity: 0,
+                    y: -50,
+                    duration: 0.4,
+                    ease: 'power2.in',
+                    onComplete: () => {
+                        window.location.href = '/dashboard';
+                    }
+                });
+            } else {
+                window.location.href = '/dashboard';
+            }
+        }
+
+        // Check for success parameter in URL (for server-side success indication)
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                setTimeout(showSuccessPopup, 500);
+            }
+        });
+
+        // Alternative: Check for success via form submission response
+        // You can modify this based on how your backend handles login success
+        function checkLoginSuccess() {
+            // This would typically be called after receiving a successful response
+            // from your login endpoint if using AJAX
+            showSuccessPopup();
+        }
+
+        // Enhanced input interactions
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.input-icon').style.color = 'rgba(255, 255, 255, 0.9)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.input-icon').style.color = 'rgba(255, 255, 255, 0.7)';
+            });
+        });
+
+        // Keyboard navigation enhancement
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const form = document.getElementById('loginForm');
+                const activeElement = document.activeElement;
+                
+                if (activeElement.type === 'text') {
+                    // Move to password field
+                    document.getElementById('passwordInput').focus();
+                    e.preventDefault();
+                } else if (activeElement.type === 'password') {
+                    // Submit form
+                    form.submit();
+                }
+            }
+        });
+
+        // Performance optimization
+        window.addEventListener('load', () => {
+            // Preload common images
+            const imageUrls = [
+                'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1920&q=80'
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        });
+    </script>
+</body>
+</html>

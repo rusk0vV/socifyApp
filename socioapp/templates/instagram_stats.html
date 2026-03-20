@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instagram Stats - Socify</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    body {
+      background: #0a1026;
+      min-height: 100vh;
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e2e6f3;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: -200px;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, #6a7cff 0%, #d62976 60%, transparent 100%);
+      opacity: 0.22;
+      z-index: 0;
+      animation: floatGlow 12s infinite alternate;
+    }
+    @keyframes floatGlow {
+      0% { top: -200px; left: -200px; }
+      100% { top: 0px; left: 0px; }
+    }
+    .glass-card {
+      background: rgba(18, 22, 44, 0.92);
+      border-radius: 24px;
+      padding: 48px 32px 32px 32px;
+      box-shadow: 0 8px 32px #d6297680, 0 0 0 2px #6a7cff;
+      border: none;
+      transition: box-shadow 0.3s, transform 0.2s;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(12px);
+    }
+    .glass-card:hover {
+      box-shadow: 0 0 48px 12px #d62976a0, 0 8px 32px #6a7cff80;
+      transform: translateY(-6px) scale(1.03);
+    }
+    .section-divider {
+      font-size: 2rem;
+      color: #d62976;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #d62976 0%, #6a7cff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .text-warning {
+      color: #ff6a00 !important;
+    }
+    .text-info {
+      color: #6a7cff !important;
+    }
+    a.text-info:hover {
+      color: #d62976 !important;
+    }
+    .rounded-circle {
+      box-shadow: 0 0 24px #d62976a0;
+    }
+    ul.list-unstyled li {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+      .glass-card { padding: 18px 8px; }
+      .section-divider { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="glass-card text-center">
+          <div class="section-divider"><i class="fab fa-instagram"></i> Instagram</div>
+          <img src="{{ instagram_profile_url if instagram_profile_url else 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png' }}" alt="Instagram Profile Photo" class="rounded-circle mb-2" style="width:100px; height:100px; object-fit:cover; border: 3px solid #d62976;">
+          <ul class="list-unstyled mt-4">
+            <li>
+              <strong class="text-warning">Username:</strong>
+              <a href="https://instagram.com/{{ instagram_stats.username }}" target="_blank" class="text-info text-decoration-underline">
+                {{ instagram_stats.username }}
+              </a>
+            </li>
+            <li><strong class="text-warning">Followers:</strong> {{ instagram_stats.followers }}</li>
+            <li><strong class="text-warning">Posts:</strong> {{ instagram_stats.posts }}</li>
+            <li><strong class="text-warning">Bio:</strong> {{ instagram_stats.bio }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.from('.glass-card', {
+        duration: 1.2,
+        opacity: 0,
+        y: 60,
+        scale: 0.85,
+        ease: 'power3.out'
+      });
+    });
+  </script>
+</body>
+</html>
