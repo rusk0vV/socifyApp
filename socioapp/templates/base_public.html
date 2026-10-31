@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B0D14">
+  <title>{% block title %}Socify{% endblock %} · Socify</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23667eea'/%3E%3Cstop offset='1' stop-color='%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M16 6l8 10-8 10-8-10z' fill='white'/%3E%3C/svg%3E">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/socify.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div id="navbar-progress"></div>
+  {% block nav %}
+  <header class="pub-nav" id="pubNav">
+    <div class="inner">
+      <a class="brand" href="{{ url_for('home') }}"><span class="logo"><i class="fa-solid fa-diamond"></i></span> Socify</a>
+      <nav class="links" aria-label="Primary">
+        <a href="{{ url_for('home') }}#features">Features</a>
+        <a href="{{ url_for('home') }}#why-socify">Why Socify</a>
+        <a href="{{ url_for('reviews') }}">Reviews</a>
+      </nav>
+      <div class="actions">
+        {% if session.username %}
+          <a class="btn-s primary" href="{{ url_for('dashboard') }}">Open dashboard</a>
+        {% else %}
+          <a class="btn-s ghost" href="{{ url_for('login') }}">Log in</a>
+          <a class="btn-s primary" href="{{ url_for('register') }}">Get started</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  {% endblock %}
+
+  {% block body %}{% endblock %}
+
+  {% block footer %}
+  <footer class="pub-footer">
+    <div class="inner">
+      <span>© Socify — one dashboard for all your social analytics.</span>
+      <span class="d-flex gap-3">
+        <a href="{{ url_for('reviews') }}">Reviews</a>
+        <a href="{{ url_for('login') }}">Log in</a>
+      </span>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <div id="toasts" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/socify.js') }}"></script>
+  <script>
+    (function(){var n=document.getElementById('pubNav');if(!n)return;
+      var on=function(){n.classList.toggle('scrolled',window.scrollY>8)};on();
+      window.addEventListener('scroll',on,{passive:true});})();
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
+

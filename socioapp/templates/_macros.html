@@ -1,0 +1,81 @@
+{# Reusable Socify components. Import with: {% from '_macros.html' import kpi, platform_card, empty_state, page_head %} #}
+
+{% macro kpi(label, value, icon='fa-solid fa-chart-simple', delta=None, trend=None, hint='', i=0, suffix='', tip='') %}
+<div class="card-s is-interactive reveal h-100" style="--i:{{ i }}">
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <span class="eyebrow">{{ label }}</span>
+    {% if tip %}
+      <i class="{{ icon }}" style="color:var(--text-faint)" data-bs-toggle="tooltip" title="{{ tip }}" tabindex="0"></i>
+    {% else %}
+      <i class="{{ icon }}" style="color:var(--text-faint)"></i>
+    {% endif %}
+  </div>
+  <div class="kpi-value" data-countup="{{ value }}" data-suffix="{{ suffix }}">{{ value }}{{ suffix }}</div>
+  {% if delta is not none and delta != 0 %}
+    <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
+      <span class="chip {{ 'up' if trend == 'increase' else 'down' }}">
+        <i class="fa-solid {{ 'fa-arrow-trend-up' if trend == 'increase' else 'fa-arrow-trend-down' }}"></i>
+        {{ delta|abs }}%
+      </span>
+      <span class="text-muted small">{{ hint }}</span>
+    </div>
+  {% else %}
+    <div class="mt-2 text-muted small">{{ hint or '—' }}</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# state: 'connected' | 'unavailable' | 'unlinked'; stats: list of (value, label) tuples #}
+{% macro platform_card(key, name, icon, handle, state, stats, href, link_href, i=0, subtitle='') %}
+<div class="card-s platform {{ key }} reveal h-100 {{ 'is-interactive' if state != 'unlinked' }} {{ 'is-empty' if state == 'unlinked' }}" style="--i:{{ i }}">
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <div class="p-icon"><i class="{{ icon }}"></i></div>
+    <div class="flex-grow-1 min-w-0">
+      <div class="fw-semibold">{{ name }}</div>
+      <div class="text-muted small text-truncate">{{ handle if handle else (subtitle or 'Not linked') }}</div>
+    </div>
+    {% if state == 'connected' %}
+      <span class="chip up"><span class="dot"></span>Connected</span>
+    {% elif state == 'unavailable' %}
+      <span class="chip warn"><span class="dot"></span>Unavailable</span>
+    {% endif %}
+  </div>
+  {% if state == 'unlinked' %}
+    <div class="text-muted small mb-3">Connect {{ name }} to see its stats here.</div>
+    <a class="btn-s sm" href="{{ link_href }}"><i class="fa-solid fa-plus"></i> Link {{ name }}</a>
+  {% elif state == 'unavailable' %}
+    <div class="text-muted small mb-3">We couldn't fetch {{ name }} data right now. Check the handle or try again in a moment.</div>
+    <a class="btn-s sm ghost" href="{{ link_href }}"><i class="fa-solid fa-pen"></i> Check settings</a>
+  {% else %}
+    <div class="mini-stats">
+      {% for v, l in stats %}
+        <div><div class="v">{{ v }}</div><div class="eyebrow">{{ l }}</div></div>
+      {% endfor %}
+    </div>
+    <a class="stretched-link" href="{{ href }}" aria-label="Open {{ name }} analytics"></a>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro empty_state(icon, title, hint='', cta_href='', cta_label='') %}
+<div class="empty">
+  <div class="e-icon"><i class="{{ icon }}"></i></div>
+  <div class="e-title">{{ title }}</div>
+  {% if hint %}<div class="e-hint">{{ hint }}</div>{% endif %}
+  {% if cta_href %}<a class="btn-s sm primary" href="{{ cta_href }}">{{ cta_label }}</a>{% endif %}
+</div>
+{% endmacro %}
+
+{% macro page_head(title, subtitle='', icon='', p='') %}
+<div class="page-head">
+  <div class="d-flex align-items-center gap-3">
+    {% if icon %}<div class="p-icon lg {{ p }}"><i class="{{ icon }}"></i></div>{% endif %}
+    <div>
+      <h2 class="page-title">{{ title }}</h2>
+      {% if subtitle %}<p class="page-sub">{{ subtitle }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="d-flex gap-2 flex-wrap">{{ caller() if caller else '' }}</div>
+</div>
+{% endmacro %}
+

@@ -1,119 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Reddit Stats - Socify</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <style>
-    body {
-      background: #0a1026;
-      min-height: 100vh;
-      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #e2e6f3;
-      position: relative;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      top: -200px; left: -200px;
-      width: 800px; height: 800px;
-      background: radial-gradient(circle, #ff4500 0%, #6a7cff 60%, transparent 100%);
-      opacity: 0.22;
-      z-index: 0;
-      animation: floatGlow 12s infinite alternate;
-    }
-    @keyframes floatGlow {
-      0% { top: -200px; left: -200px; }
-      100% { top: 0px; left: 0px; }
-    }
-    .glass-card {
-      background: rgba(18, 22, 44, 0.92);
-      border-radius: 24px;
-      padding: 48px 32px 32px 32px;
-      box-shadow: 0 8px 32px #ff450080, 0 0 0 2px #6a7cff;
-      border: none;
-      transition: box-shadow 0.3s, transform 0.2s;
-      position: relative;
-      z-index: 1;
-      backdrop-filter: blur(12px);
-    }
-    .glass-card:hover {
-      box-shadow: 0 0 48px 12px #ff4500a0, 0 8px 32px #6a7cff80;
-      transform: translateY(-6px) scale(1.03);
-    }
-    .section-divider {
-      font-size: 2rem;
-      color: #ff4500;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #ff4500 0%, #6a7cff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    .text-warning {
-      color: #ff6a00 !important;
-    }
-    .text-info {
-      color: #6a7cff !important;
-    }
-    a.text-info:hover {
-      color: #ff4500 !important;
-    }
-    .rounded-circle {
-      box-shadow: 0 0 24px #ff4500a0;
-    }
-    ul.list-unstyled li {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
-    @media (max-width: 600px) {
-      .glass-card { padding: 18px 8px; }
-      .section-divider { font-size: 1.2rem; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="glass-card text-center">
-          <div class="section-divider"><i class="fab fa-reddit"></i> Reddit</div>
-          <ul class="list-unstyled mt-4">
-            <li>
-              <strong class="text-warning">Subreddit:</strong>
-              <a href="https://reddit.com/r/{{ reddit_stats.subreddit }}" target="_blank" class="text-info text-decoration-underline">
-                {{ reddit_stats.subreddit }}
-              </a>
-            </li>
-            <li><strong class="text-warning">Subscribers:</strong> {{ reddit_stats.subscribers }}</li>
-            <li><strong class="text-warning">Active Users:</strong> {{ reddit_stats.active_users }}</li>
-            <li><strong class="text-warning">Description:</strong> {{ reddit_stats.description }}</li>
-          </ul>
-        </div>
+{% extends 'base.html' %}
+{% from '_macros.html' import kpi, empty_state %}
+
+{% block title %}Reddit Analytics{% endblock %}
+{% block heading %}Reddit{% endblock %}
+
+{% block content %}
+{% set rs = reddit_stats or {} %}
+{% set sub = (reddit or '')|replace('r/', '')|trim %}
+{% set linked = sub|length > 0 %}
+{% set available = linked and reddit_stats and (rs.subscribers is defined and rs.subscribers != 'Unavailable') %}
+
+<div class="page-head reveal">
+  <div class="d-flex align-items-center gap-3">
+    <div class="p-icon lg rd"><i class="fa-brands fa-reddit-alien"></i></div>
+    <div>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <h2 class="page-title">{{ ('r/' ~ sub) if linked else 'Reddit Analytics' }}</h2>
+        {% if available %}
+          <span class="chip up"><span class="dot"></span>Connected</span>
+        {% elif linked %}
+          <span class="chip warn"><span class="dot"></span>Unavailable</span>
+        {% endif %}
       </div>
+      <p class="page-sub">Subreddit membership, active readers and community description.</p>
     </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      gsap.from('.glass-card', {
-        duration: 1.2,
-        opacity: 0,
-        y: 60,
-        scale: 0.85,
-        ease: 'power3.out'
-      });
-    });
-  </script>
-</body>
-</html>
+  <div class="d-flex gap-2 flex-wrap">
+    <a class="btn-s ghost" href="{{ url_for('dashboard') }}"><i class="fa-solid fa-arrow-left"></i> Overview</a>
+    {% if linked %}
+      <a class="btn-s" href="https://www.reddit.com/r/{{ sub }}/" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien"></i> Open subreddit <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+    {% endif %}
+    <a class="btn-s primary" href="{{ url_for('link_accounts') }}"><i class="fa-solid fa-link"></i> {{ 'Update subreddit' if linked else 'Link Reddit' }}</a>
+  </div>
+</div>
+
+{% if not linked %}
+  <div class="card-s platform rd reveal">
+    {{ empty_state('fa-brands fa-reddit-alien', 'No subreddit linked',
+                   'Connect a subreddit in account settings to monitor its subscriber count and active users.',
+                   url_for('link_accounts'), 'Link Reddit') }}
+  </div>
+{% elif not available %}
+  <div class="card-s platform rd reveal">
+    {{ empty_state('fa-solid fa-triangle-exclamation', 'Subreddit data unavailable',
+                   'We could not load r/' ~ sub ~ ' from Reddit. Verify the subreddit name and make sure it is public.',
+                   url_for('link_accounts'), 'Check subreddit settings') }}
+  </div>
+{% else %}
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      {{ kpi('Subscribers', rs.subscribers, 'fa-solid fa-users', hint='Total members in r/' ~ sub, i=1) }}
+    </div>
+    <div class="col-md-6">
+      {{ kpi('Active users', rs.active_users if rs.active_users != 'Unavailable' else 0, 'fa-solid fa-bolt', hint='Members currently online', i=2) }}
+    </div>
+  </div>
+
+  <div class="card-s platform rd reveal" style="--i:3">
+    <div class="card-head">
+      <h3 class="card-title"><i class="fa-regular fa-file-lines"></i> Community description</h3>
+      <button type="button" class="btn-s sm ghost" data-copy="https://www.reddit.com/r/{{ sub }}/" aria-label="Copy subreddit URL"><i class="fa-regular fa-copy"></i> Copy URL</button>
+    </div>
+    <p class="mb-0" style="color:var(--text-muted);font-size:15px">
+      {{ rs.description if (rs.description and rs.description != 'Unavailable') else 'No public description provided for this subreddit.' }}
+    </p>
+  </div>
+{% endif %}
+{% endblock %}
