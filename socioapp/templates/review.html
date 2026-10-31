@@ -1,674 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Review Us - Socify</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <style>
-    /* Modern Professional Background with Dynamic Gradient */
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-      background-size: 400% 400%;
-      animation: gradientMove 15s ease infinite;
-      min-height: 100vh;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      color: #1a202c;
-      position: relative;
-      overflow-x: hidden;
-      margin: 0;
-    }
+{% extends 'base_public.html' %}
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+{% block title %}Write a Review{% endblock %}
 
-    /* Floating particles background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-      z-index: 0;
-      animation: floatingParticles 20s ease-in-out infinite;
-    }
+{% block head %}
+<style>
+  .star-picker{display:inline-flex;flex-direction:row-reverse;gap:6px}
+  .star-picker input{position:absolute;opacity:0;pointer-events:none}
+  .star-picker label{font-size:24px;color:var(--surface-3);cursor:pointer;transition:color 150ms,transform 150ms}
+  .star-picker label:hover,.star-picker label:hover ~ label,
+  .star-picker input:checked ~ label{color:var(--warning)}
+  .star-picker input:focus-visible + label{box-shadow:var(--ring);border-radius:6px}
+</style>
+{% endblock %}
 
-    @keyframes floatingParticles {
-      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-      50% { transform: translateY(-20px) rotate(10deg); opacity: 0.6; }
-    }
-
-    /* Professional Glass Morphism Container */
-    .glass-section {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border-radius: 24px;
-      padding: 2rem 2rem;
-      box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.15),
-        0 6px 20px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin: 1rem auto;
-      max-width: 700px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .glass-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .glass-section:hover::before {
-      opacity: 1;
-    }
-
-    /* Enhanced Typography */
-    .main-title {
-      background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-family: 'Inter', sans-serif;
-      font-weight: 900;
-      font-size: 2.5rem;
-      letter-spacing: -1px;
-      margin-bottom: 0.5rem;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-      animation: titleGlow 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes titleGlow {
-      from { filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)); }
-      to { filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)); }
-    }
-
-    .subtitle {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.1rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Modern Form Controls */
-    .form-control, .form-select {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      color: #ffffff;
-      padding: 0.8rem 1rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-control:focus, .form-select:focus {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.6);
-      box-shadow: 
-        0 0 0 0.25rem rgba(255, 255, 255, 0.15),
-        0 8px 25px rgba(0, 0, 0, 0.15);
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-
-    .form-control::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-weight: 400;
-    }
-
-    /* Enhanced Form Labels */
-    .form-label {
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.75rem;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      letter-spacing: 0.3px;
-    }
-
-    /* Professional Star Rating */
-    .star-rating {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      margin: 1rem 0;
-    }
-    
-    .star-icon { 
-      font-size: 3.5rem !important;
-      color: #ffd700 !important;
-      cursor: pointer !important; 
-      transition: all 0.3s ease !important;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8) !important;
-      user-select: none !important;
-      display: inline-block !important;
-      line-height: 1 !important;
-    }
-
-    .star-icon:hover { 
-      transform: scale(1.2) !important;
-      text-shadow: 0 0 20px rgba(255, 215, 0, 1) !important;
-      filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.6)) !important;
-    }
-
-    .star-icon.unchecked {
-      color: rgba(255, 255, 255, 0.3) !important;
-      text-shadow: none !important;
-    }
-
-    .star-rating-container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 2rem;
-      margin: 2rem 0;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .rating-instruction {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1.1rem;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
-
-    /* Premium Submit Button */
-    .btn-submit {
-      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%) !important;
-      border: 2px solid #4CAF50 !important;
-      color: white !important;
-      font-family: 'Inter', sans-serif !important;
-      font-weight: 700 !important;
-      font-size: 1.2rem !important;
-      padding: 1rem 2.5rem !important;
-      border-radius: 12px !important;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.6) !important;
-      margin: 2rem auto !important;
-      position: relative !important;
-      overflow: hidden;
-      text-transform: uppercase;
-      width: auto !important;
-      max-width: none !important;
-      display: inline-block !important;
-      z-index: 1000 !important;
-      cursor: pointer !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-
-    .btn-submit::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
-      transition: all 0.4s ease;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-    }
-
-    .btn-submit:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    .btn-submit:hover {
-      background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%) !important;
-      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
-      transform: translateY(-2px);
-      color: white !important;
-      border-color: #45a049 !important;
-    }
-
-    .btn-submit:active {
-      transform: translateY(0px);
-      box-shadow: 0 2px 10px rgba(76, 175, 80, 0.4);
-    }
-
-    /* Professional Form Layout */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .glass-section {
-        margin: 2rem 1rem;
-        padding: 2.5rem 2rem;
-      }
-      
-      .main-title {
-        font-size: 2.5rem;
-      }
-      
-      .subtitle {
-        font-size: 1.2rem;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      
-      .star-rating .fa-star {
-        font-size: 2.5rem;
-        margin: 0 5px;
-      }
-    }
-
-    /* Enhanced Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(60px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .glass-section {
-      animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    }
-
-    /* Floating Elements */
-    .floating-icon {
-      position: absolute;
-      font-size: 2rem;
-      color: rgba(255, 255, 255, 0.1);
-      animation: float 6s ease-in-out infinite;
-      z-index: 0;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(5deg); }
-    }
-
-    .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-    .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
-    .floating-icon:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
-    .floating-icon:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 1s; }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 4px;
-      transition: background 0.3s ease;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-  </style>
-</head>
-<body>
-  <!-- Floating Background Icons -->
-  <div class="floating-icon"><i class="fas fa-star"></i></div>
-  <div class="floating-icon"><i class="fas fa-heart"></i></div>
-  <div class="floating-icon"><i class="fas fa-thumbs-up"></i></div>
-  <div class="floating-icon"><i class="fas fa-comment"></i></div>
-
-  <div class="container">
-    <div class="glass-section">
-      <h1 class="main-title">Share Your Experience</h1>
-      <p class="subtitle">Help others discover what makes Socify special</p>
-      
-      <form method="POST" action="{{ url_for('review') }}">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name" class="form-label">
-              <i class="fas fa-user me-2"></i>Your Name
-            </label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
-          </div>
-          <div class="form-group">
-            <label for="role" class="form-label">
-              <i class="fas fa-briefcase me-2"></i>Your Role/Title
-            </label>
-            <input type="text" class="form-control" id="role" name="role" placeholder="e.g., Social Media Manager" required>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="title" class="form-label">
-            <i class="fas fa-heading me-2"></i>Review Title
-          </label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="Summarize your experience in one line" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="text" class="form-label">
-            <i class="fas fa-comment-dots me-2"></i>Your Review
-          </label>
-          <textarea class="form-control" id="text" name="text" rows="4" placeholder="Tell us about your experience with Socify..." required></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">
-            <i class="fas fa-star me-2"></i>Your Rating
-          </label>
-          <div class="text-center" style="margin: 1.5rem 0; padding: 2rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px);">
-            <div class="star-rating" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 1rem 0;">
-              <span class="star-icon" data-rating="1" style="font-size: 3rem; color: #ffd700; cursor: pointer; transition: all 0.3s ease;">★</span>
-              <span class="star-icon" data-rating="2" style="font-size: 3rem; color: #ffd700; cursor: pointer; transition: all 0.3s ease;">★</span>
-              <span class="star-icon" data-rating="3" style="font-size: 3rem; color: #ffd700; cursor: pointer; transition: all 0.3s ease;">★</span>
-              <span class="star-icon" data-rating="4" style="font-size: 3rem; color: #ffd700; cursor: pointer; transition: all 0.3s ease;">★</span>
-              <span class="star-icon" data-rating="5" style="font-size: 3rem; color: #ffd700; cursor: pointer; transition: all 0.3s ease;">★</span>
-            </div>
-            <input type="hidden" id="stars" name="stars" value="5">
-            <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin-top: 1rem; margin-bottom: 0;">Click stars to rate your experience</p>
-          </div>
-        </div>
-        
-        <!-- Submit Button Section -->
-        <div class="form-group" style="margin-top: 3rem; text-align: center;">
-          <button type="submit" class="btn btn-submit" style="display: inline-block !important; visibility: visible !important;">
-            <i class="fas fa-paper-plane me-2"></i>Submit Your Review
-          </button>
-        </div>
-      </form>
+{% block body %}
+<main class="pub-wrap py-5" id="main">
+  <div class="mx-auto" style="max-width:600px">
+    <div class="mb-4 reveal">
+      <a class="btn-s sm ghost mb-3" href="{{ url_for('reviews') }}"><i class="fa-solid fa-arrow-left"></i> Back to reviews</a>
+      <h1 class="page-title">Share your experience</h1>
+      <p class="page-sub">Tell creators and teams how Socify has helped your workflow.</p>
     </div>
+
+    <form method="POST" action="{{ url_for('review') }}" class="card-s reveal" style="--i:1">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <div class="field mb-0">
+            <label for="name">Your name</label>
+            <input class="input-s" type="text" id="name" name="name" placeholder="Alex Morgan" required>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="field mb-0">
+            <label for="role">Role or title</label>
+            <input class="input-s" type="text" id="role" name="role" placeholder="Content Creator" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="field mt-3">
+        <label class="d-block">Rating</label>
+        <div class="star-picker" role="radiogroup" aria-label="Star rating">
+          {% for s in [5, 4, 3, 2, 1] %}
+            <input type="radio" id="star-{{ s }}" name="stars" value="{{ s }}" {% if s == 5 %}checked{% endif %}>
+            <label for="star-{{ s }}" title="{{ s }} star{{ '' if s == 1 else 's' }}" aria-label="{{ s }} star{{ '' if s == 1 else 's' }}"><i class="fa-solid fa-star"></i></label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="title">Review headline</label>
+        <input class="input-s" type="text" id="title" name="title" placeholder="All my channel stats in one clean view" maxlength="100" required>
+      </div>
+
+      <div class="field">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label for="text" class="mb-0">Your review</label>
+          <span class="text-muted small num" id="charCount">0 / 500</span>
+        </div>
+        <textarea class="input-s" id="text" name="text" rows="4" maxlength="500" placeholder="What do you like most about Socify?" required></textarea>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-2">
+        <a class="btn-s ghost" href="{{ url_for('reviews') }}">Cancel</a>
+        <button type="submit" class="btn-s primary lg"><i class="fa-solid fa-paper-plane"></i> Submit review</button>
+      </div>
+    </form>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Enhanced GSAP Animations
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if GSAP is loaded
-      if (typeof gsap !== 'undefined') {
-        // Main timeline with sophisticated effects
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        
-        // Enhanced entrance animations
-        tl.from(".glass-section", { 
-            duration: 1.5, 
-            y: 100, 
-            opacity: 0, 
-            scale: 0.9,
-            rotationX: 20,
-            transformOrigin: "center center"
-        })
-        .from(".main-title", { 
-            duration: 1.2, 
-            scale: 0.8, 
-            opacity: 0, 
-            y: 30
-        }, "-=0.8")
-        .from(".subtitle", { 
-            duration: 1, 
-            opacity: 0, 
-            y: 20 
-        }, "-=0.6")
-        .from(".form-group", { 
-            duration: 1, 
-            y: 50, 
-            opacity: 0, 
-            stagger: 0.15 
-        }, "-=0.4")
-        .from(".star-rating .fa-star", { 
-            duration: 1.2, 
-            scale: 0.3, 
-            opacity: 0, 
-            rotation: 180,
-            stagger: 0.1, 
-            ease: "back.out(2)" 
-        }, "-=0.6")
-        .from(".btn-submit", { 
-            duration: 1, 
-            scale: 0.8, 
-            opacity: 0, 
-            y: 30 
-        }, "-=0.3");
+</main>
+{% endblock %}
 
-        // Floating icons animation
-        gsap.to(".floating-icon", {
-          duration: 6,
-          y: -30,
-          rotation: 360,
-          repeat: -1,
-          yoyo: true,
-          ease: "power2.inOut",
-          stagger: 1.5
-        });
-
-        // Form control hover animations
-        const formControls = document.querySelectorAll('.form-control, textarea');
-        formControls.forEach(control => {
-          control.addEventListener('focus', () => {
-            gsap.to(control, {
-              duration: 0.3,
-              scale: 1.02,
-              boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
-              ease: "power2.out"
-            });
-          });
-          
-          control.addEventListener('blur', () => {
-            gsap.to(control, {
-              duration: 0.3,
-              scale: 1,
-              boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-              ease: "power2.out"
-            });
-          });
-        });
-
-        // Star rating enhanced animations
-        const stars = document.querySelectorAll('.star-rating .fa-star');
-        stars.forEach((star, index) => {
-          star.addEventListener('mouseenter', () => {
-            gsap.to(star, {
-              duration: 0.3,
-              scale: 1.3,
-              rotation: 10,
-              ease: "back.out(2)"
-            });
-          });
-          
-          star.addEventListener('mouseleave', () => {
-            gsap.to(star, {
-              duration: 0.3,
-              scale: star.classList.contains('checked') ? 1.2 : 1,
-              rotation: 0,
-              ease: "power2.out"
-            });
-          });
-        });
-
-        // Submit button advanced hover effect
-        const submitBtn = document.querySelector('.btn-submit');
-        submitBtn.addEventListener('mouseenter', () => {
-          gsap.to(submitBtn, {
-            duration: 0.4,
-            scale: 1.05,
-            y: -5,
-            boxShadow: "0 15px 40px rgba(0, 0, 0, 0.2)",
-            ease: "power2.out"
-          });
-        });
-        
-        submitBtn.addEventListener('mouseleave', () => {
-          gsap.to(submitBtn, {
-            duration: 0.4,
-            scale: 1,
-            y: 0,
-            boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
-            ease: "power2.out"
-          });
-        });
-
-      } else {
-        // Fallback CSS animations if GSAP is not loaded
-        const glassSection = document.querySelector('.glass-section');
-        glassSection.style.animation = 'fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both';
-      }
-    });
-
-    // Simple Star Rating Logic
-    document.addEventListener('DOMContentLoaded', function() {
-      const stars = document.querySelectorAll('.star-icon');
-      const starsInput = document.getElementById('stars');
-      let currentRating = 5;
-      
-      console.log('Stars found:', stars.length);
-      
-      // Initialize with 5 stars
-      updateStarDisplay(currentRating);
-      
-      stars.forEach((star, index) => {
-        star.addEventListener('click', function() {
-          currentRating = parseInt(this.getAttribute('data-rating'));
-          starsInput.value = currentRating;
-          updateStarDisplay(currentRating);
-          console.log('Rating set to:', currentRating);
-        });
-        
-        star.addEventListener('mouseover', function() {
-          const hoverRating = parseInt(this.getAttribute('data-rating'));
-          highlightStars(hoverRating);
-        });
-      });
-      
-      document.querySelector('.star-rating').addEventListener('mouseleave', function() {
-        updateStarDisplay(currentRating);
-      });
-      
-      function updateStarDisplay(rating) {
-        stars.forEach((star, index) => {
-          if (index < rating) {
-            star.style.color = '#ffd700';
-            star.style.textShadow = '0 0 20px rgba(255, 215, 0, 1)';
-            star.classList.remove('unchecked');
-          } else {
-            star.style.color = 'rgba(255, 255, 255, 0.3)';
-            star.style.textShadow = 'none';
-            star.classList.add('unchecked');
-          }
-        });
-      }
-      
-      function highlightStars(rating) {
-        stars.forEach((star, index) => {
-          if (index < rating) {
-            star.style.color = '#ffd700';
-            star.style.transform = 'scale(1.2)';
-            star.style.textShadow = '0 0 20px rgba(255, 215, 0, 1)';
-          } else {
-            star.style.color = 'rgba(255, 255, 255, 0.3)';
-            star.style.transform = 'scale(1)';
-            star.style.textShadow = 'none';
-          }
-        });
-      }
-    });
-
-    // Form validation with enhanced feedback
-    document.querySelector('form').addEventListener('submit', function(e) {
-      const requiredFields = this.querySelectorAll('[required]');
-      let isValid = true;
-      
-      requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-          isValid = false;
-          field.style.borderColor = '#ff6b6b';
-          
-          if (typeof gsap !== 'undefined') {
-            gsap.fromTo(field, 
-              { x: -10 },
-              { 
-                x: 10, 
-                duration: 0.1, 
-                repeat: 3, 
-                yoyo: true,
-                ease: "power2.out",
-                onComplete: () => gsap.set(field, { x: 0 })
-              }
-            );
-          }
-        } else {
-          field.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-        }
-      });
-      
-      if (!isValid) {
-        e.preventDefault();
-      }
-    });
-
-    // Parallax effect for floating icons
-    if (window.innerWidth > 768) {
-      document.addEventListener('mousemove', function(e) {
-        const floatingIcons = document.querySelectorAll('.floating-icon');
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-        
-        floatingIcons.forEach((icon, index) => {
-          const speed = (index + 1) * 0.5;
-          const x = (mouseX - 0.5) * speed * 20;
-          const y = (mouseY - 0.5) * speed * 20;
-          
-          if (typeof gsap !== 'undefined') {
-            gsap.to(icon, {
-              duration: 1,
-              x: x,
-              y: y,
-              ease: "power2.out"
-            });
-          }
-        });
-      });
-    }
-  </script>
-</body>
-</html>
+{% block scripts %}
+<script>
+  (function () {
+    var ta = document.getElementById('text');
+    var cc = document.getElementById('charCount');
+    if (!ta || !cc) return;
+    var upd = function () { cc.textContent = ta.value.length + ' / 500'; };
+    upd();
+    ta.addEventListener('input', upd);
+  })();
+</script>
+{% endblock %}

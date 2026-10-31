@@ -1,81 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Videos - Socify</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <style>
-    body {
-      background: linear-gradient(135deg, #0a1026 0%, #1a1f3a 100%);
-      min-height: 100vh;
-      color: #e2e6f3;
-      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .video-card {
-      background: rgba(255, 0, 0, 0.1);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(255, 0, 0, 0.2);
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    .video-thumbnail {
-      width: 120px;
-      height: 68px;
-      border-radius: 8px;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .video-info {
-      flex: 1;
-    }
-    .video-title {
-      color: #fff;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-    .video-stats {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.8rem;
-      color: #6a7cff;
-    }
-    .back-btn {
-      background: linear-gradient(90deg, #ff0000 0%, #6a7cff 100%);
-      border: none;
-      font-weight: 600;
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
-  <div class="container py-5" style="margin-top: 80px;">
-    <div class="d-flex justify-content-end mb-3">
-      <a href="{{ url_for('youtube_stats_page') }}" class="btn back-btn">Back to Analytics</a>
+{% extends 'base.html' %}
+{% from '_macros.html' import empty_state %}
+
+{% block title %}Recent Videos{% endblock %}
+{% block heading %}Recent videos{% endblock %}
+
+{% block head %}
+<style>
+  .video-grid-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--surface-2);margin-bottom:12px}
+</style>
+{% endblock %}
+
+{% block content %}
+{% set list = videos or [] %}
+
+<div class="page-head reveal">
+  <div class="d-flex align-items-center gap-3">
+    <div class="p-icon lg yt"><i class="fa-brands fa-youtube"></i></div>
+    <div>
+      <h2 class="page-title">Recent videos</h2>
+      <p class="page-sub">Performance breakdown of your latest uploads on YouTube.</p>
     </div>
-    <h2 class="mb-4" style="color: #ff0000; font-weight: 700;">My Last 5 Videos</h2>
-    {% if videos %}
-      {% for video in videos %}
-      <div class="video-card">
-        <img src="{{ video.thumbnail }}" alt="Video Thumbnail" class="video-thumbnail">
-        <div class="video-info">
-          <div class="video-title">{{ video.title }}</div>
-          <div class="video-stats">
-            <span><i class="fas fa-eye"></i> {{ video.views | format_followers }}</span>
-            <span><i class="fas fa-thumbs-up"></i> {{ video.likes | format_followers }}</span>
-            <span><i class="fas fa-comment"></i> {{ video.comments | format_followers }}</span>
-            <span><i class="fas fa-calendar"></i> {{ video.published_date }}</span>
+  </div>
+  <div class="d-flex gap-2 flex-wrap">
+    <a class="btn-s ghost" href="{{ url_for('youtube_stats_page') }}"><i class="fa-solid fa-arrow-left"></i> YouTube analytics</a>
+    <a class="btn-s" href="{{ url_for('dashboard') }}">Overview</a>
+  </div>
+</div>
+
+{% if list %}
+  <div class="row g-3">
+    {% for video in list %}
+      <div class="col-md-6 col-xl-4">
+        <div class="card-s platform yt is-interactive reveal h-100 d-flex flex-column" style="--i:{{ loop.index0 }}">
+          {% if video.thumbnail %}
+            <img class="video-grid-thumb" src="{{ video.thumbnail }}" alt="{{ video.title }}" loading="lazy">
+          {% endif %}
+          <h3 class="h6 fw-semibold line-clamp-2 mb-2">{{ video.title }}</h3>
+          <div class="mt-auto pt-3 border-top" style="border-color:var(--border)!important">
+            <div class="meta-row justify-content-between">
+              <span><i class="fa-regular fa-eye"></i><strong class="text-light num">{{ video.views|format_followers }}</strong> views</span>
+              <span><i class="fa-regular fa-thumbs-up"></i><strong class="text-light num">{{ video.likes|format_followers }}</strong></span>
+              <span><i class="fa-regular fa-comment"></i><strong class="text-light num">{{ video.comments|format_followers }}</strong></span>
+              {% if video.published_date %}
+                <span><i class="fa-regular fa-calendar"></i>{{ video.published_date }}</span>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
-      {% endfor %}
-    {% else %}
-      <div class="alert alert-warning">No videos found.</div>
-    {% endif %}
+    {% endfor %}
   </div>
-</body>
-</html>
+{% else %}
+  <div class="card-s platform yt reveal">
+    {{ empty_state('fa-solid fa-film', 'No recent videos found',
+                   'Make sure your YouTube channel is linked and has public video uploads.',
+                   url_for('link_accounts'), 'Check YouTube settings') }}
+  </div>
+{% endif %}
+{% endblock %}
