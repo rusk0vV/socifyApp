@@ -44,3 +44,45 @@ node_modules/
 
 # Logs
 *.log
+
+
+# Allow the env template to be committed
+!.env.example
+
+# Secrets, API keys & credentials (never commit these)
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+client_secret*.json
+credentials.json
+token.json
+service-account*.json
+*-credentials.json
+google_credentials*.json
+*.secret
+*.secrets
+config.local.*
+local_settings.py
+
+# Project docs / design notes (kept local)
+/docs/
+
+# Database dumps and local data
+*.bson
+*.dump
+dump/
+data/
+
+# Playwright / browser automation artifacts
+.playwright/
+playwright-report/
+test-results/
+playwright/.auth/
+
+# Jupyter / scratch / backups
+.ipynb_checkpoints/
+scratch/
+*.bak
+*.tmp
