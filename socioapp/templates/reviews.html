@@ -41,14 +41,14 @@
                 </div>
                 {% if r.date %}<span class="text-muted small">{{ r.date }}</span>{% endif %}
               </div>
-              <h2 class="h6 fw-semibold mb-2">“{{ r.title }}”</h2>
-              <p class="text-muted mb-3">{{ r.text }}</p>
+              <h2 class="h6 fw-semibold mb-2">“{{ (r.title[:1]|upper ~ r.title[1:]) if r.title else '' }}”</h2>
+              <p class="text-muted mb-3">{{ (r.text[:1]|upper ~ r.text[1:]) if r.text else '' }}</p>
             </div>
             <div class="d-flex align-items-center gap-3 pt-3 border-top" style="border-color:var(--border)!important">
               <img class="avatar md" src="{{ r.avatar_url if r.avatar_url else 'https://api.dicebear.com/7.x/identicon/svg?seed=' ~ r.name }}" alt="" loading="lazy">
               <div class="min-w-0">
-                <div class="fw-semibold text-truncate">{{ r.name }}</div>
-                <div class="text-muted small text-truncate">{{ r.role }}</div>
+                <div class="fw-semibold text-truncate">{{ (r.name[:1]|upper ~ r.name[1:]) if r.name else '' }}</div>
+                <div class="text-muted small text-truncate">{{ (r.role[:1]|upper ~ r.role[1:]) if r.role else '' }}</div>
               </div>
             </div>
           </article>

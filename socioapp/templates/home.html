@@ -253,14 +253,14 @@
                   <div class="stars" aria-label="{{ r.stars }} out of 5 stars">{% for _ in range(r.stars|int) %}★{% endfor %}</div>
                   {% if r.date %}<span class="text-muted small">{{ r.date }}</span>{% endif %}
                 </div>
-                <h3 class="h6 fw-semibold mb-1">“{{ r.title }}”</h3>
-                <p class="text-muted small mb-3 line-clamp-3">{{ r.text }}</p>
+                <h3 class="h6 fw-semibold mb-1">“{{ (r.title[:1]|upper ~ r.title[1:]) if r.title else '' }}”</h3>
+                <p class="text-muted small mb-3 line-clamp-3">{{ (r.text[:1]|upper ~ r.text[1:]) if r.text else '' }}</p>
               </div>
               <div class="d-flex align-items-center gap-2">
                 <img class="avatar" src="{{ r.avatar_url if r.avatar_url else 'https://api.dicebear.com/7.x/identicon/svg?seed=' ~ r.name }}" alt="" loading="lazy">
                 <div class="small">
-                  <span class="fw-semibold">{{ r.name }}</span>
-                  <span class="text-muted"> · {{ r.role }}</span>
+                  <span class="fw-semibold">{{ (r.name[:1]|upper ~ r.name[1:]) if r.name else '' }}</span>
+                  <span class="text-muted"> · {{ (r.role[:1]|upper ~ r.role[1:]) if r.role else '' }}</span>
                 </div>
               </div>
             </div>
