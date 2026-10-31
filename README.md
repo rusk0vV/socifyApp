@@ -8,8 +8,8 @@ SocioApp helps creators and teams monitor cross-platform performance faster by c
 
 ### Key Features
 
-- Unified dashboard view for multiple platforms
 - Account linking and profile-based insights
+- Unified dashboard view for multiple platforms
 - Platform-specific stats pages (YouTube, Instagram, Twitter, Facebook, GitHub, Reddit)
 - Flask backend with template-based frontend
 - Modular utility files for social/API integrations
