@@ -6,7 +6,7 @@
 
 {% block head %}
 <style>
-  .ai-card{background:linear-gradient(135deg,rgba(102,126,234,.16),rgba(240,147,251,.10)),var(--surface-1);border-color:rgba(102,126,234,.35)}
+  .ai-card{background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(236,72,153,.06)),var(--surface-1);border-color:rgba(79,70,229,.28)}
   .kw-list{display:flex;flex-wrap:wrap;gap:6px}
 </style>
 {% endblock %}
@@ -239,6 +239,10 @@
 {% endblock %}
 
 {% block scripts %}
+{% set ys = youtube_stats or {} %}
+{% set unlinked = (not ys) or (ys.channel == 'No YouTube Channel Linked') %}
+{% set errored = (not unlinked) and (('Error' in ys) or (ys.channel == 'Error Loading Data') or (ys.subscribers is not defined)) %}
+{% set ready = (not unlinked) and (not errored) %}
 {% if ready %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
@@ -285,9 +289,9 @@
     });
   }
 
-  makeLine('viewsChart',    'Views',    recentVideos.map(v => v.views    || 0), '#FF3D3D', 'rgba(255,61,61,.14)');
-  makeLine('likesChart',    'Likes',    recentVideos.map(v => v.likes    || 0), '#667EEA', 'rgba(102,126,234,.14)');
-  makeLine('commentsChart', 'Comments', recentVideos.map(v => v.comments || 0), '#F093FB', 'rgba(240,147,251,.14)');
+  makeLine('viewsChart',    'Views',    recentVideos.map(v => v.views    || 0), '#E11D48', 'rgba(225,29,72,.12)');
+  makeLine('likesChart',    'Likes',    recentVideos.map(v => v.likes    || 0), '#4F46E5', 'rgba(79,70,229,.12)');
+  makeLine('commentsChart', 'Comments', recentVideos.map(v => v.comments || 0), '#EC4899', 'rgba(236,72,153,.12)');
 </script>
 {% endif %}
 {% endblock %}

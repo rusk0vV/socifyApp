@@ -7,16 +7,16 @@
 <style>
   .hero-wrap{padding:72px 0 48px;text-align:center}
   .hero-sub{max-width:640px;margin:16px auto 0;font-size:18px;color:var(--text-muted);line-height:1.6}
-  .preview-frame{margin-top:48px;padding:16px;border-radius:20px;background:rgba(18,21,31,.85);border:1px solid var(--border-strong);
-    box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 80px rgba(102,126,234,.18);text-align:left}
+  .preview-frame{margin-top:48px;padding:18px;border-radius:20px;background:rgba(255,255,255,.92);border:1px solid var(--border-strong);
+    box-shadow:0 24px 60px rgba(15,23,42,.10),0 0 80px rgba(79,70,229,.10);text-align:left}
   .preview-bar{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--border)}
   .preview-dots{display:flex;gap:6px}
   .preview-dots span{width:10px;height:10px;border-radius:50%;background:var(--surface-3)}
   .logo-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
   .logo-tile{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:var(--surface-1);
-    border:1px solid var(--border);color:var(--text-muted);transition:all 200ms var(--ease)}
+    border:1px solid var(--border);color:var(--text-muted);box-shadow:var(--shadow-1);transition:all 200ms var(--ease)}
   .logo-tile i{font-size:22px;transition:color 200ms}
-  .logo-tile:hover{border-color:var(--border-strong);color:var(--text);transform:translateY(-2px)}
+  .logo-tile:hover{border-color:var(--border-strong);color:var(--text);transform:translateY(-2px);box-shadow:var(--shadow-2)}
   .logo-tile.yt:hover i{color:var(--yt)}
   .logo-tile.ig:hover i{color:var(--ig)}
   .logo-tile.rd:hover i{color:var(--rd)}
@@ -184,7 +184,7 @@
             </div>
             <div class="col-sm-6">
               <div class="p-3 rounded-3 h-100" style="background:var(--surface-2);border:1px solid var(--border)">
-                <div class="fw-semibold mb-1"><i class="fa-solid fa-check text-success me-2"></i>Focused dark UI</div>
+                <div class="fw-semibold mb-1"><i class="fa-solid fa-check text-success me-2"></i>Crisp light UI</div>
                 <p class="text-muted small mb-0">High-contrast tabular numbers and clean charts designed for daily check-ins.</p>
               </div>
             </div>
@@ -278,7 +278,7 @@
 
   {# ===== Closing CTA ===== #}
   <section class="section-block pt-2">
-    <div class="card-s text-center p-4 p-lg-5" style="background:radial-gradient(600px 260px at 50% 0%,rgba(102,126,234,.22),transparent 70%),var(--surface-1)">
+    <div class="card-s text-center p-4 p-lg-5" style="background:radial-gradient(600px 260px at 50% 0%,rgba(79,70,229,.12),transparent 70%),var(--surface-1)">
       <h2 class="page-title">Ready to unify your social analytics?</h2>
       <p class="text-muted mx-auto mt-2 mb-4" style="max-width:520px">Create an account and link your channels in seconds.</p>
       <div class="d-flex justify-content-center gap-2 flex-wrap">

@@ -97,18 +97,19 @@ window.addEventListener('pageshow', () => {
   document.querySelectorAll('button.loading').forEach(b => { b.classList.remove('loading'); if (b.dataset.label) b.innerHTML = b.dataset.label; });
 });
 
-/* ===== Chart.js shared theme (only if Chart is loaded) ===== */
+/* ===== Chart.js shared theme (Light mode) ===== */
 function themeCharts() {
   if (!window.Chart) return;
   Chart.defaults.font.family = "'Inter', sans-serif";
-  Chart.defaults.color = '#9AA3B8';
-  Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+  Chart.defaults.color = '#475569';
+  Chart.defaults.borderColor = '#E2E8F0';
   Chart.defaults.plugins.legend.display = false;
-  Chart.defaults.plugins.tooltip.backgroundColor = '#1F2433';
-  Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,.14)';
+  Chart.defaults.plugins.tooltip.backgroundColor = '#0F172A';
+  Chart.defaults.plugins.tooltip.titleColor = '#FFFFFF';
+  Chart.defaults.plugins.tooltip.bodyColor = '#E2E8F0';
+  Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,.12)';
   Chart.defaults.plugins.tooltip.borderWidth = 1;
   Chart.defaults.plugins.tooltip.padding = 10;
   Chart.defaults.elements.bar.borderRadius = 6;
   Chart.defaults.maintainAspectRatio = false;
 }
-

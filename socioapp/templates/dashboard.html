@@ -9,7 +9,7 @@
   .seg{display:inline-flex;padding:3px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border)}
   .seg button{height:28px;padding:0 12px;border:0;border-radius:7px;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 150ms}
   .seg button:hover{color:var(--text)}
-  .seg button.active{background:var(--surface-3);color:var(--text);box-shadow:var(--shadow-1)}
+  .seg button.active{background:var(--surface-1);color:var(--text);box-shadow:var(--shadow-1)}
   .legend-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
   .legend-row:last-child{border-bottom:0}
   .legend-row .sw{width:10px;height:10px;border-radius:3px;flex:none}
@@ -80,9 +80,9 @@
             <i class="fa-solid {{ 'fa-arrow-trend-up' if analytics.engagement_trend == 'increase' else 'fa-arrow-trend-down' }}"></i>
             <div>
               {% if analytics.engagement_trend == 'increase' %}
-                <strong>Engagement improved.</strong> Your latest video performed {{ analytics.engagement_difference }}% better than the previous one ({{ analytics.previous_engagement_rate }}% → {{ analytics.engagement_rate }}%).
+                <strong style="color:var(--text)">Engagement improved.</strong> Your latest video performed {{ analytics.engagement_difference }}% better than the previous one ({{ analytics.previous_engagement_rate }}% → {{ analytics.engagement_rate }}%).
               {% else %}
-                <strong>Engagement declined.</strong> Your latest video had {{ analytics.engagement_difference|abs }}% lower engagement than the previous one ({{ analytics.previous_engagement_rate }}% → {{ analytics.engagement_rate }}%). Look at what worked in your earlier content.
+                <strong style="color:var(--text)">Engagement declined.</strong> Your latest video had {{ analytics.engagement_difference|abs }}% lower engagement than the previous one ({{ analytics.previous_engagement_rate }}% → {{ analytics.engagement_rate }}%). Look at what worked in your earlier content.
               {% endif %}
             </div>
           </div>
@@ -212,6 +212,8 @@
 {% endblock %}
 
 {% block scripts %}
+{% set ys = youtube_stats or {} %}
+{% set rs = reddit_stats or {} %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
   themeCharts();
@@ -220,7 +222,7 @@
   const videos = {{ ((ys.recent_videos or [])|reverse|list)|tojson }};
   const videoCanvas = document.getElementById('videoChart');
   if (videoCanvas && videos.length) {
-    const colors = { views: '#667EEA', likes: '#F093FB', comments: '#60A5FA' };
+    const colors = { views: '#4F46E5', likes: '#EC4899', comments: '#2563EB' };
     const short = t => (t || '').length > 22 ? t.slice(0, 21) + '…' : (t || 'Video');
     const labels = videos.map(v => short(v.title));
     const chart = new Chart(videoCanvas, {
@@ -252,12 +254,11 @@
   /* ---------- Audience by platform (donut) ---------- */
   (() => {
     const raw = {{ [ys.subscribers or 0, instagram_followers or '', rs.subscribers or 0] | tojson }};
-    // Only plain integers count (Instagram's scraped value can be abbreviated, so skip anything ambiguous).
     const num = x => { const s = String(x).replace(/,/g, ''); return /^\d+$/.test(s) ? parseInt(s, 10) : 0; };
     const items = [
-      { label: 'YouTube',   value: num(raw[0]), color: '#FF3D3D' },
-      { label: 'Instagram', value: num(raw[1]), color: '#E4405F' },
-      { label: 'Reddit',    value: num(raw[2]), color: '#FF8A4C' }
+      { label: 'YouTube',   value: num(raw[0]), color: '#E11D48' },
+      { label: 'Instagram', value: num(raw[1]), color: '#EC4899' },
+      { label: 'Reddit',    value: num(raw[2]), color: '#EA580C' }
     ].filter(i => i.value > 0);
     if (!items.length) return;
     document.getElementById('audienceEmpty').hidden = true;
