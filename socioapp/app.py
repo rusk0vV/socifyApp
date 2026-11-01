@@ -33,7 +33,7 @@ reviews_collection = db['reviews']
 # YouTube API Setup (Single Source of Truth)
 # Paste your YouTube Data API v3 key below or set YOUTUBE_API_KEY in environment
 # -------------------------------
-API_KEY = os.environ.get('YOUTUBE_API_KEY', 'AIzaSyAzbx-V4QEZwtsPDHxvrCLtIMiVf87b7vQ')
+API_KEY = os.environ.get('YOUTUBE_API_KEY', 'AIzaSyBzC1__-x3PoHV6MyT8yYX1h-pEBLn_PF4')
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 
